@@ -19,21 +19,21 @@ public class LineTest {
 
     @Test
     public void getArea() {
-        double expected = 0;
+        int expected = 0;
         assertEquals(line.getArea(), expected, DELTA);
     }
 
     @Test
     public void getPerimeter() {
-        double expected = 127.27922;
+        int expected = 127;
         assertEquals(line.getPerimeter(), expected, DELTA);
     }
 
     @Test
     public void toStringTest() {
         String expected = "Линия:\n" +
-                "Площадь фигуры: 0,00\n" +
-                "Периметр фигуры: 127,28\n" +
+                "Площадь фигуры: 0\n" +
+                "Периметр фигуры: 127\n" +
                 "Цвет обводки: #000000\n" +
                 "Точка начала отрезка: " + start.toString() + "\n" +
                 "Точка конца отрезка: " + end.toString() + "\n";
@@ -45,7 +45,7 @@ public class LineTest {
         MockCanvas canvas = new MockCanvas();
         line.draw(canvas);
         List<String> expected = new ArrayList<>();
-        expected.add("<line from='x:10,00 y:10,00' to='x:100,00 y:100,00' color='#000000' />");
+        expected.add("<line from='x:10 y:10' to='x:100 y:100' color='#000000' />");
         assertEquals(canvas.getOut(), expected);
     }
 }

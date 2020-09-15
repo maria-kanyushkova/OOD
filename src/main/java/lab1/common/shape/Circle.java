@@ -11,11 +11,11 @@ import java.awt.*;
 public class Circle extends Shape implements ISolidShape {
     private final double pi = 3.14;
     private Point center;
-    private double radius;
+    private int radius;
     private Color outlineColor;
     private Color fillColor;
 
-    public Circle(Point center, double radius, Color outlineColor, Color fillColor) {
+    public Circle(Point center, int radius, Color outlineColor, Color fillColor) {
         this.center = center;
         this.radius = radius;
         this.outlineColor = outlineColor;
@@ -31,13 +31,13 @@ public class Circle extends Shape implements ISolidShape {
     }
 
     @Override
-    public double getArea() {
-        return pi * radius * radius;
+    public int getArea() {
+        return (int) (pi * radius * radius);
     }
 
     @Override
-    public double getPerimeter() {
-        return 2 * pi * radius;
+    public int getPerimeter() {
+        return (int) (2 * pi * radius);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Circle extends Shape implements ISolidShape {
                 super.toString() +
                 "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
                 "Точка центра окружности: " + center.toString() + "\n" +
-                "Радиус окружности: " + Utils.doubleToString(radius) + "\n";
+                "Радиус окружности: " + radius + "\n";
     }
 
     @Override

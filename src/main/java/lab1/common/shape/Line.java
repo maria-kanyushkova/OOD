@@ -26,13 +26,13 @@ public class Line extends Shape {
     }
 
     @Override
-    public double getArea() {
+    public int getArea() {
         return 0;
     }
 
     @Override
-    public double getPerimeter() {
-        return Math.sqrt(Math.pow(endPoint.getX() - startPoint.getX(), 2) + Math.pow(endPoint.getY() - startPoint.getY(), 2));
+    public int getPerimeter() {
+        return (int) Math.sqrt(Math.pow(endPoint.getX() - startPoint.getX(), 2) + Math.pow(endPoint.getY() - startPoint.getY(), 2));
     }
 
     @Override

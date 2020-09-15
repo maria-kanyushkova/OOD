@@ -12,12 +12,12 @@ import java.util.Arrays;
 public class Rectangle extends Shape implements ISolidShape {
     private Point leftTop;
     private Point rightBottom;
-    private double height;
-    private double width;
+    private int height;
+    private int width;
     private Color outlineColor;
     private Color fillColor;
 
-    public Rectangle(Point leftTop, double width, double height, Color outlineColor, Color fillColor) {
+    public Rectangle(Point leftTop, int width, int height, Color outlineColor, Color fillColor) {
         this.height = height;
         this.width = width;
         this.leftTop = leftTop;
@@ -34,21 +34,21 @@ public class Rectangle extends Shape implements ISolidShape {
         return rightBottom;
     }
 
-    public double getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public double getWidth() {
+    public int getWidth() {
         return width;
     }
 
     @Override
-    public double getArea() {
+    public int getArea() {
         return width * height;
     }
 
     @Override
-    public double getPerimeter() {
+    public int getPerimeter() {
         return 2 * (width + height);
     }
 
@@ -67,10 +67,10 @@ public class Rectangle extends Shape implements ISolidShape {
         return "Прямоугольник:\n" +
                 super.toString() +
                 "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
-                "Левая верхняя точка прямоугольника: x:" + leftTop.toString() + "\n" +
-                "Правая нижняя точка прямоугольника: x:" + rightBottom.toString() + "\n" +
-                "Ширина прямоугольника: " + String.format("%.2f", width) + "\n" +
-                "Высота прямоугольника: " + String.format("%.2f", height) + "\n";
+                "Левая верхняя точка прямоугольника: " + leftTop.toString() + "\n" +
+                "Правая нижняя точка прямоугольника: " + rightBottom.toString() + "\n" +
+                "Ширина прямоугольника: " + width + "\n" +
+                "Высота прямоугольника: " + height + "\n";
     }
 
     @Override

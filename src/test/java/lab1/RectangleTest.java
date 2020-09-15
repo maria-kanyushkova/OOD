@@ -13,35 +13,35 @@ import static org.junit.Assert.assertEquals;
 public class RectangleTest {
     public final double DELTA = 5e-5;
     private Point leftTop = new Point(200, 200);
-    private double width = 150;
-    private double height = 100;
+    private int width = 150;
+    private int height = 100;
     private Color color = new Color(0, 0, 0);
     private Color fill = new Color(29, 141, 215);
     private Rectangle rectangle = new Rectangle(leftTop, width, height, color, fill);
 
     @Test
     public void getArea() {
-        double expected = 15000.00;
+        int expected = 15000;
         assertEquals(rectangle.getArea(), expected, DELTA);
     }
 
     @Test
     public void getPerimeter() {
-        double expected = 500.00;
+        int expected = 500;
         assertEquals(rectangle.getPerimeter(), expected, DELTA);
     }
 
     @Test
     public void toStringTest() {
         String expected = "Прямоугольник:\n" +
-                "Площадь фигуры: 15000,00\n" +
-                "Периметр фигуры: 500,00\n" +
+                "Площадь фигуры: 15000\n" +
+                "Периметр фигуры: 500\n" +
                 "Цвет обводки: #000000\n" +
                 "Цвет заливки: #1d8dd7\n" +
-                "Левая верхняя точка прямоугольника: x:x:200,00 y:200,00\n" +
-                "Правая нижняя точка прямоугольника: x:x:350,00 y:300,00\n" +
-                "Ширина прямоугольника: 150,00\n" +
-                "Высота прямоугольника: 100,00\n";
+                "Левая верхняя точка прямоугольника: x:200 y:200\n" +
+                "Правая нижняя точка прямоугольника: x:350 y:300\n" +
+                "Ширина прямоугольника: 150\n" +
+                "Высота прямоугольника: 100\n";
         assertEquals(rectangle.toString(), expected);
     }
 
@@ -50,11 +50,11 @@ public class RectangleTest {
         MockCanvas canvas = new MockCanvas();
         rectangle.draw(canvas);
         List<String> expected = new ArrayList<>();
-        expected.add("<polygonFill points='point0:`x:200,00 y:200,00` point1:`x:350,00 y:200,00` point2:`x:350,00 y:300,00` point3:`x:200,00 y:300,00` ' fill='#1d8dd7' />");
-        expected.add("<line from='x:200,00 y:200,00' to='x:350,00 y:200,00' color='#000000' />");
-        expected.add("<line from='x:350,00 y:200,00' to='x:350,00 y:300,00' color='#000000' />");
-        expected.add("<line from='x:350,00 y:300,00' to='x:200,00 y:300,00' color='#000000' />");
-        expected.add("<line from='x:200,00 y:300,00' to='x:200,00 y:200,00' color='#000000' />");
+        expected.add("<polygonFill points='point0:`x:200 y:200` point1:`x:350 y:200` point2:`x:350 y:300` point3:`x:200 y:300` ' fill='#1d8dd7' />");
+        expected.add("<line from='x:200 y:200' to='x:350 y:200' color='#000000' />");
+        expected.add("<line from='x:350 y:200' to='x:350 y:300' color='#000000' />");
+        expected.add("<line from='x:350 y:300' to='x:200 y:300' color='#000000' />");
+        expected.add("<line from='x:200 y:300' to='x:200 y:200' color='#000000' />");
         assertEquals(canvas.getOut(), expected);
     }
 }

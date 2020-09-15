@@ -136,8 +136,8 @@ public class EventLoop {
                     throw new IOException("Недостаточно аргументов");
                 }
                 Point leftTop = Utils.convertToPoint(params[0], params[1]);
-                double width = Utils.convertToNumber(params[2]);
-                double height = Utils.convertToNumber(params[3]);
+                int width = Utils.convertToNumber(params[2]);
+                int height = Utils.convertToNumber(params[3]);
                 outlineColor = Utils.convertToColor(params[4]);
                 fillColor = Utils.convertToColor(params[5]);
                 return ShapeFactory.createRectangle(leftTop, width, height, outlineColor, fillColor);
@@ -146,7 +146,7 @@ public class EventLoop {
                     throw new IOException("Недостаточно аргументов");
                 }
                 Point center = Utils.convertToPoint(params[0], params[1]);
-                double radius = Utils.convertToNumber(params[2]);
+                int radius = Utils.convertToNumber(params[2]);
                 outlineColor = Utils.convertToColor(params[3]);
                 fillColor = Utils.convertToColor(params[4]);
                 return ShapeFactory.createCircle(center, radius, outlineColor, fillColor);

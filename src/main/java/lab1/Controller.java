@@ -4,33 +4,26 @@ import lab1.common.IShape;
 import lab1.canvas.ICanvas;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Controller {
     private List<IShape> shapes = new ArrayList<>();
 
-    public String getInfoAboutFigureWithMaxArea() {
-        double area = 0;
-        IShape figure = null;
+    public ArrayList<String> getShapeInfo() {
+        ArrayList<String> result = new ArrayList<>();
         for (IShape shape : shapes) {
-            if (area <= shape.getArea()) {
-                area = shape.getArea();
-                figure = shape;
-            }
+            result.add(getClassName(shape) + ": " + "P=" + shape.getPerimeter() + "; S=" + shape.getArea());
         }
-        return figure != null ? figure.toString() : "";
+        return result;
     }
 
-    public String getInfoAboutFigureWithMinPerimeter() {
-        double perimeter = Double.MAX_VALUE;
-        IShape figure = null;
-        for (IShape shape : shapes) {
-            if (perimeter >= shape.getPerimeter()) {
-                perimeter = shape.getPerimeter();
-                figure = shape;
-            }
-        }
-        return figure != null ? figure.toString() : "";
+    public String getClassName(IShape shape) {
+        String expression = shape.getClass().toString();
+        ArrayList<String> expressionArray = new ArrayList<>();
+        Collections.addAll(expressionArray, expression.split("\\."));
+        String className = expressionArray.get(expressionArray.size() - 1);
+        return className.toUpperCase();
     }
 
     public void appendShape(IShape shape) {

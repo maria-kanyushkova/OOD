@@ -5,9 +5,9 @@ import lab1.canvas.ICanvasDrawable;
 import java.awt.*;
 
 public interface IShape extends ICanvasDrawable {
-    double getArea();
+    int getArea();
 
-    double getPerimeter();
+    int getPerimeter();
 
     Color getOutlineColor();
 

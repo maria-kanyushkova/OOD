@@ -24,8 +24,8 @@ public class Utils {
     }
 
     public static Point convertToPoint(String pointX, String pointY) throws Exception {
-        double x = convertToNumber(pointX);
-        double y = convertToNumber(pointY);
+        int x = convertToNumber(pointX);
+        int y = convertToNumber(pointY);
         return new Point(x, y);
     }
 
@@ -39,11 +39,11 @@ public class Utils {
         return new Color(r, g, b);
     }
 
-    public static double convertToNumber(String number) throws Exception {
+    public static int convertToNumber(String number) throws Exception {
         if (!isStringNumber(number)) {
             throw new Exception("Значение не является числом");
         }
-        return Double.parseDouble(number);
+        return Integer.parseInt(number);
     }
 
     public static String colorToString(Color color) {
@@ -52,9 +52,5 @@ public class Utils {
             hex = "0" + hex;
         }
         return "#" + hex;
-    }
-
-    public static String doubleToString(double value) {
-        return String.format("%.2f", value);
     }
 }

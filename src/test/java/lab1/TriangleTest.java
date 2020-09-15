@@ -21,21 +21,21 @@ public class TriangleTest {
 
     @Test
     public void getArea() {
-        double expected = 14999.99999;
+        int expected = 14999;
         assertEquals(circle.getArea(), expected, DELTA);
     }
 
     @Test
     public void getPerimeter() {
-        double expected = 588.63495;
+        int expected = 588;
         assertEquals(circle.getPerimeter(), expected, DELTA);
     }
 
     @Test
     public void toStringTest() {
         String expected = "Треугольник:\n" +
-                "Площадь фигуры: 15000,00\n" +
-                "Периметр фигуры: 588,63\n" +
+                "Площадь фигуры: 14999\n" +
+                "Периметр фигуры: 588\n" +
                 "Цвет обводки: #000000\n" +
                 "Цвет заливки: #1d8dd7\n" +
                 "Первая точка треугольника: " + vertex1.toString() + "\n" +
@@ -49,10 +49,10 @@ public class TriangleTest {
         MockCanvas canvas = new MockCanvas();
         circle.draw(canvas);
         List<String> expected = new ArrayList<>();
-        expected.add("<polygonFill points='point0:`x:200,00 y:200,00` point1:`x:400,00 y:300,00` point2:`x:300,00 y:400,00` ' fill='#1d8dd7' />");
-        expected.add("<line from='x:200,00 y:200,00' to='x:400,00 y:300,00' color='#000000' />");
-        expected.add("<line from='x:400,00 y:300,00' to='x:300,00 y:400,00' color='#000000' />");
-        expected.add("<line from='x:300,00 y:400,00' to='x:200,00 y:200,00' color='#000000' />");
+        expected.add("<polygonFill points='point0:`x:200 y:200` point1:`x:400 y:300` point2:`x:300 y:400` ' fill='#1d8dd7' />");
+        expected.add("<line from='x:200 y:200' to='x:400 y:300' color='#000000' />");
+        expected.add("<line from='x:400 y:300' to='x:300 y:400' color='#000000' />");
+        expected.add("<line from='x:300 y:400' to='x:200 y:200' color='#000000' />");
         assertEquals(canvas.getOut(), expected);
     }
 }

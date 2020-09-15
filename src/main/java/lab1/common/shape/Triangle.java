@@ -37,17 +37,17 @@ public class Triangle extends Shape implements ISolidShape {
     }
 
     @Override
-    public double getArea() {
+    public int getArea() {
         double width12 = getLineWidth(vertex1, vertex2);
         double width23 = getLineWidth(vertex2, vertex3);
         double width31 = getLineWidth(vertex3, vertex1);
         double p = (width12 + width23 + width31) / 2;
-        return Math.sqrt(p * (p - width12) * (p - width23) * (p - width31));
+        return (int) Math.sqrt(p * (p - width12) * (p - width23) * (p - width31));
     }
 
     @Override
-    public double getPerimeter() {
-        return getLineWidth(vertex1, vertex2) + getLineWidth(vertex2, vertex3) + getLineWidth(vertex3, vertex1);
+    public int getPerimeter() {
+        return (int) (getLineWidth(vertex1, vertex2) + getLineWidth(vertex2, vertex3) + getLineWidth(vertex3, vertex1));
     }
 
     @Override

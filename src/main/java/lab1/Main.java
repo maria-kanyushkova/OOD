@@ -6,6 +6,9 @@ import lab1.canvas.Canvas;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Main {
     private static final int FRAME_WIDTH = 1280;
@@ -24,8 +27,7 @@ public class Main {
                 eventLoop.run(inputFile);
             }
 
-            System.out.println("Максимальная площадь у фигуры:\n" + controller.getInfoAboutFigureWithMaxArea());
-            System.out.println("Минимальный периметр у фигуры:\n" + controller.getInfoAboutFigureWithMinPerimeter());
+            writeShapesInfo(controller.getShapeInfo());
 
             JFrame frame = createUIFrame();
 
@@ -55,5 +57,16 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         return frame;
+    }
+
+    private static void writeShapesInfo(ArrayList<String> shapes) throws IOException {
+        File outputFile = FileManager.create("src/main/resources/lab1/output.txt");
+        try (
+                FileWriter writer = new FileWriter(outputFile);
+        ) {
+            for (String shape : shapes) {
+                writer.write(shape + "\n");
+            }
+        }
     }
 }

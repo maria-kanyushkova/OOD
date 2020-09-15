@@ -33,12 +33,12 @@ public class MockCanvas implements ICanvas {
 
     @Override
     public void drawCircle(Point center, double radius, Color outlineColor) {
-        out.add("<circle center='" + center.toString() + "' radius='" + Utils.doubleToString(radius) + "' color='" + Utils.colorToString(outlineColor) + "' />");
+        out.add("<circle center='" + center.toString() + "' radius='" + radius + "' color='" + Utils.colorToString(outlineColor) + "' />");
     }
 
     @Override
     public void fillCircle(Point center, double radius, Color fillColor) {
-        out.add("<circleFill center='" + center.toString() + "' radius='" + Utils.doubleToString(radius) + "' fill='" + Utils.colorToString(fillColor) + "' />");
+        out.add("<circleFill center='" + center.toString() + "' radius='" + radius + "' fill='" + Utils.colorToString(fillColor) + "' />");
     }
 
     public List<String> getOut() {
