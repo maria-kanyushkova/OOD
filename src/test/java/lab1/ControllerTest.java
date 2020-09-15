@@ -69,7 +69,7 @@ public class ControllerTest {
             controller.appendShape(new Line(new Point(10, 10), new Point(100, 100), new Color(0, 0, 0)));
             controller.appendShape(new Circle(new Point(100, 100), 25, new Color(0, 0, 0), new Color(29, 141, 215)));
             controller.appendShape(new Triangle(new Point(200, 200), new Point(400, 300), new Point(300, 400), new Color(0, 0, 0), new Color(29, 141, 215)));
-            controller.appendShape(new Rectangle(new Point(200, 200), 150, 100, new Color(0, 0, 0), new Color(29, 141, 215)));
+            controller.appendShape(new Rectangle(new Point(200, 200), new Point(350, 300), new Color(0, 0, 0), new Color(29, 141, 215)));
         }
 //        @Test
 //        @DisplayName("should give info about shape with max area")

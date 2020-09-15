@@ -16,8 +16,8 @@ public class ShapeFactory {
         return new Triangle(vertex1, vertex2, vertex3, outlineColor, fillColor);
     }
 
-    public static IShape createRectangle(Point leftTop, int width, int height, Color outlineColor, Color fillColor) {
-        return new Rectangle(leftTop, width, height, outlineColor, fillColor);
+    public static IShape createRectangle(Point leftTop, Point rightBottom, Color outlineColor, Color fillColor) {
+        return new Rectangle(leftTop, rightBottom, outlineColor, fillColor);
     }
 
     public static IShape createCircle(Point center, int radius, Color outlineColor, Color fillColor) {

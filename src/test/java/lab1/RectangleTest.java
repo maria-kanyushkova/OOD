@@ -13,11 +13,10 @@ import static org.junit.Assert.assertEquals;
 public class RectangleTest {
     public final double DELTA = 5e-5;
     private Point leftTop = new Point(200, 200);
-    private int width = 150;
-    private int height = 100;
+    private Point rightBottom = new Point(350, 300);
     private Color color = new Color(0, 0, 0);
     private Color fill = new Color(29, 141, 215);
-    private Rectangle rectangle = new Rectangle(leftTop, width, height, color, fill);
+    private Rectangle rectangle = new Rectangle(leftTop, rightBottom, color, fill);
 
     @Test
     public void getArea() {

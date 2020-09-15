@@ -17,11 +17,11 @@ public class Rectangle extends Shape implements ISolidShape {
     private Color outlineColor;
     private Color fillColor;
 
-    public Rectangle(Point leftTop, int width, int height, Color outlineColor, Color fillColor) {
-        this.height = height;
-        this.width = width;
+    public Rectangle(Point leftTop, Point rightBottom, Color outlineColor, Color fillColor) {
+        this.height = rightBottom.getY() - leftTop.getY();
+        this.width = rightBottom.getX() - leftTop.getX();
         this.leftTop = leftTop;
-        this.rightBottom = new Point(leftTop.getX() + width, leftTop.getY() + height);
+        this.rightBottom = rightBottom;
         this.outlineColor = outlineColor;
         this.fillColor = fillColor;
     }

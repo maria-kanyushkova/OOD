@@ -25,7 +25,7 @@ public class EventLoop {
         return "0. help - выводится информация о командах\n" +
                 "1. line <startX> <startY> <endX> <endY> <outlineColor: #000000>\n" +
                 "2. triangle <vertex1X> <vertex1Y> <vertex2X> <vertex2Y> <vertex3X> <vertex3Y> <outlineColor: #000000> <fillColor: #000000>\n" +
-                "3. rectangle <leftTopX> <leftTopY> <width> <height> <outlineColor: #000000> <fillColor: #000000>\n" +
+                "3. rectangle <leftTopX> <leftTopY> <rightBottomX> <rightBottomY> <outlineColor: #000000> <fillColor: #000000>\n" +
                 "4. circle <centerX> <centerY> <radius> <outlineColor: #000000> <fillColor: #000000>\n" +
                 "5. draw - рисование введённых фигур\n" +
                 "6. exit - выход с приложения";
@@ -36,7 +36,7 @@ public class EventLoop {
         return scanner.nextLine();
     }
 
-    private static String[] getParams(String[] commands) {
+    private static String[] getParams(String[] commands) { // todo: написать парсер строки, чтобы в массив шли чисто цифры
         List<String> result = new ArrayList<>();
         Collections.addAll(result, commands);
         result.remove(0);
@@ -136,11 +136,10 @@ public class EventLoop {
                     throw new IOException("Недостаточно аргументов");
                 }
                 Point leftTop = Utils.convertToPoint(params[0], params[1]);
-                int width = Utils.convertToNumber(params[2]);
-                int height = Utils.convertToNumber(params[3]);
+                Point rightBottom = Utils.convertToPoint(params[2], params[3]);
                 outlineColor = Utils.convertToColor(params[4]);
                 fillColor = Utils.convertToColor(params[5]);
-                return ShapeFactory.createRectangle(leftTop, width, height, outlineColor, fillColor);
+                return ShapeFactory.createRectangle(leftTop, rightBottom, outlineColor, fillColor);
             case "circle":
                 if (params.length != 5) {
                     throw new IOException("Недостаточно аргументов");
