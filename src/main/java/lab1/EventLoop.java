@@ -9,10 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class EventLoop {
     private final Controller controller;
@@ -23,10 +21,10 @@ public class EventLoop {
 
     private static String getMenuInfo() {
         return "0. help - выводится информация о командах\n" +
-                "1. line <startX> <startY> <endX> <endY> <outlineColor: #000000>\n" +
-                "2. triangle <vertex1X> <vertex1Y> <vertex2X> <vertex2Y> <vertex3X> <vertex3Y> <outlineColor: #000000> <fillColor: #000000>\n" +
-                "3. rectangle <leftTopX> <leftTopY> <rightBottomX> <rightBottomY> <outlineColor: #000000> <fillColor: #000000>\n" +
-                "4. circle <centerX> <centerY> <radius> <outlineColor: #000000> <fillColor: #000000>\n" +
+                "1. LINE: P1=<startX>,<startY>; P2=<endX>,<endY>; <outlineColor: #000000>\n" +
+                "2. TRIANGLE: P1=<vertex1X>,<vertex1Y>; P2=<vertex2X>,<vertex2Y>; P3=<vertex3X>,<vertex3Y>; <outlineColor: #000000> <fillColor: #000000>\n" +
+                "3. RECTANGLE: P1=<leftTopX>,<leftTopY>; P2=<rightBottomX>,<rightBottomY>; <outlineColor: #000000> <fillColor: #000000>\n" +
+                "4. CIRCLE: C=<centerX>,<centerY>; R=<radius>; <outlineColor: #000000> <fillColor: #000000>\n" +
                 "5. draw - рисование введённых фигур\n" +
                 "6. exit - выход с приложения";
     }
@@ -37,11 +35,60 @@ public class EventLoop {
     }
 
     private static String[] getParams(String[] commands) { // todo: написать парсер строки, чтобы в массив шли чисто цифры
-        List<String> result = new ArrayList<>();
-        Collections.addAll(result, commands);
-        result.remove(0);
+        ArrayList<String> result = new ArrayList<>();
+        String[] params = commands[1].split("; ");
+        String[] tempCoords;
+        switch (commands[0]) {
+            case "LINE":
+                tempCoords = getPointCoords(params[0]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                tempCoords = getPointCoords(params[1]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                result.add(params[2]);
+                break;
+            case "TRIANGLE":
+                tempCoords = getPointCoords(params[0]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                tempCoords = getPointCoords(params[1]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                tempCoords = getPointCoords(params[2]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                result.add(params[3]);
+                result.add(params[4]);
+                break;
+            case "RECTANGLE":
+                tempCoords = getPointCoords(params[0]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                tempCoords = getPointCoords(params[1]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                result.add(params[2]);
+                result.add(params[3]);
+                break;
+            case "CIRCLE":
+                tempCoords = getPointCoords(params[0]);
+                result.add(tempCoords[0]);
+                result.add(tempCoords[1]);
+                result.add(params[1].split("=")[1]);
+                result.add(params[2]);
+                result.add(params[3]);
+                break;
+            default:
+                return null;
+        }
         String[] itemsArray = new String[result.size()];
         return result.toArray(itemsArray);
+    }
+
+    private static String[] getPointCoords(String param) {
+        String coordsString = param.split("=")[1];
+        return coordsString.split(",");
     }
 
     public void run() {
@@ -73,7 +120,7 @@ public class EventLoop {
     }
 
     private boolean runImpl(String commandsLine) throws Exception {
-        final String[] commands = commandsLine.split(" ");
+        final String[] commands = commandsLine.split(": ");
         String result = runCommand(commands);
         if (result.equals("exit")) {
             return true;
@@ -93,10 +140,10 @@ public class EventLoop {
         switch (command) {
             case "help":
                 return getMenuInfo();
-            case "line":
-            case "triangle":
-            case "rectangle":
-            case "circle":
+            case "LINE":
+            case "TRIANGLE":
+            case "RECTANGLE":
+            case "CIRCLE":
                 controller.appendShape(createShape(command, params));
                 break;
             case "draw":
@@ -113,7 +160,7 @@ public class EventLoop {
         Color outlineColor;
         Color fillColor;
         switch (type) {
-            case "line":
+            case "LINE" -> {
                 if (params.length != 5) {
                     throw new IOException("Недостаточно аргументов");
                 }
@@ -121,7 +168,8 @@ public class EventLoop {
                 Point end = Utils.convertToPoint(params[2], params[3]);
                 outlineColor = Utils.convertToColor(params[4]);
                 return ShapeFactory.createLine(start, end, outlineColor);
-            case "triangle":
+            }
+            case "TRIANGLE" -> {
                 if (params.length != 8) {
                     throw new IOException("Недостаточно аргументов");
                 }
@@ -131,7 +179,8 @@ public class EventLoop {
                 outlineColor = Utils.convertToColor(params[6]);
                 fillColor = Utils.convertToColor(params[7]);
                 return ShapeFactory.createTriangle(vertex1, vertex2, vertex3, outlineColor, fillColor);
-            case "rectangle":
+            }
+            case "RECTANGLE" -> {
                 if (params.length != 6) {
                     throw new IOException("Недостаточно аргументов");
                 }
@@ -140,7 +189,8 @@ public class EventLoop {
                 outlineColor = Utils.convertToColor(params[4]);
                 fillColor = Utils.convertToColor(params[5]);
                 return ShapeFactory.createRectangle(leftTop, rightBottom, outlineColor, fillColor);
-            case "circle":
+            }
+            case "CIRCLE" -> {
                 if (params.length != 5) {
                     throw new IOException("Недостаточно аргументов");
                 }
@@ -149,8 +199,8 @@ public class EventLoop {
                 outlineColor = Utils.convertToColor(params[3]);
                 fillColor = Utils.convertToColor(params[4]);
                 return ShapeFactory.createCircle(center, radius, outlineColor, fillColor);
-            default:
-                throw new IOException("Unknown shape type");
+            }
+            default -> throw new IOException("Unknown shape type");
         }
     }
 }
