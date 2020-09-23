@@ -1,7 +1,7 @@
 package lab1;
 
 import common.FileManager;
-import lab1.canvas.Canvas;
+import lab1.canvas.Painter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class Main {
 
             JFrame frame = createUIFrame();
 
-            Canvas canvas = new Canvas();
+            Painter canvas = new Painter();
             frame.add(canvas.getGraphics());
             controller.draw(canvas);
 

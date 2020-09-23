@@ -1,15 +1,7 @@
 package lab1.common;
 
-import lab1.canvas.ICanvasDrawable;
+import lab1.canvas.IPainter;
 
-import java.awt.*;
-
-public interface IShape extends ICanvasDrawable {
-    int getArea();
-
-    int getPerimeter();
-
-    Color getOutlineColor();
-
-    String toString();
+public interface IShape {
+    void draw(IPainter painter);
 }

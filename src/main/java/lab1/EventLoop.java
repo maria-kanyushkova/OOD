@@ -3,6 +3,8 @@ package lab1;
 import lab1.common.IShape;
 import lab1.common.Point;
 import lab1.common.ShapeFactory;
+import lab1.common.decorator.FillDecorator;
+import lab1.common.decorator.OutlineDecorator;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -10,7 +12,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 public class EventLoop {
     private final Controller controller;
@@ -20,13 +21,14 @@ public class EventLoop {
     }
 
     private static String getMenuInfo() {
-        return "0. help - выводится информация о командах\n" +
-                "1. LINE: P1=<startX>,<startY>; P2=<endX>,<endY>; <outlineColor: #000000>\n" +
-                "2. TRIANGLE: P1=<vertex1X>,<vertex1Y>; P2=<vertex2X>,<vertex2Y>; P3=<vertex3X>,<vertex3Y>; <outlineColor: #000000> <fillColor: #000000>\n" +
-                "3. RECTANGLE: P1=<leftTopX>,<leftTopY>; P2=<rightBottomX>,<rightBottomY>; <outlineColor: #000000> <fillColor: #000000>\n" +
-                "4. CIRCLE: C=<centerX>,<centerY>; R=<radius>; <outlineColor: #000000> <fillColor: #000000>\n" +
-                "5. draw - рисование введённых фигур\n" +
-                "6. exit - выход с приложения";
+        return (
+            "0. help - выводится информация о командах\n" +
+            "1. TRIANGLE: P1=<vertex1X>,<vertex1Y>; P2=<vertex2X>,<vertex2Y>; P3=<vertex3X>,<vertex3Y>; <outlineColor: #000000> <fillColor: #000000>\n" +
+            "2. RECTANGLE: P1=<leftTopX>,<leftTopY>; P2=<rightBottomX>,<rightBottomY>; <outlineColor: #000000> <fillColor: #000000>\n" +
+            "3. CIRCLE: C=<centerX>,<centerY>; R=<radius>; <outlineColor: #000000> <fillColor: #000000>\n" +
+            "4. draw - рисование введённых фигур\n" +
+            "5. exit - выход с приложения"
+        );
     }
 
     private static String readFromConsole() {
@@ -39,15 +41,6 @@ public class EventLoop {
         String[] params = commands[1].split("; ");
         String[] tempCoords;
         switch (commands[0]) {
-            case "LINE":
-                tempCoords = getPointCoords(params[0]);
-                result.add(tempCoords[0]);
-                result.add(tempCoords[1]);
-                tempCoords = getPointCoords(params[1]);
-                result.add(tempCoords[0]);
-                result.add(tempCoords[1]);
-                result.add(params[2]);
-                break;
             case "TRIANGLE":
                 tempCoords = getPointCoords(params[0]);
                 result.add(tempCoords[0]);
@@ -140,7 +133,6 @@ public class EventLoop {
         switch (command) {
             case "help":
                 return getMenuInfo();
-            case "LINE":
             case "TRIANGLE":
             case "RECTANGLE":
             case "CIRCLE":
@@ -157,18 +149,7 @@ public class EventLoop {
     }
 
     private IShape createShape(String type, String[] params) throws Exception {
-        Color outlineColor;
-        Color fillColor;
         switch (type) {
-            case "LINE" -> {
-                if (params.length != 5) {
-                    throw new IOException("Недостаточно аргументов");
-                }
-                Point start = Utils.convertToPoint(params[0], params[1]);
-                Point end = Utils.convertToPoint(params[2], params[3]);
-                outlineColor = Utils.convertToColor(params[4]);
-                return ShapeFactory.createLine(start, end, outlineColor);
-            }
             case "TRIANGLE" -> {
                 if (params.length != 8) {
                     throw new IOException("Недостаточно аргументов");
@@ -176,9 +157,8 @@ public class EventLoop {
                 Point vertex1 = Utils.convertToPoint(params[0], params[1]);
                 Point vertex2 = Utils.convertToPoint(params[2], params[3]);
                 Point vertex3 = Utils.convertToPoint(params[4], params[5]);
-                outlineColor = Utils.convertToColor(params[6]);
-                fillColor = Utils.convertToColor(params[7]);
-                return ShapeFactory.createTriangle(vertex1, vertex2, vertex3, outlineColor, fillColor);
+
+                return applyDecorator(ShapeFactory.createTriangle(vertex1, vertex2, vertex3), params[6], params[7]);
             }
             case "RECTANGLE" -> {
                 if (params.length != 6) {
@@ -186,9 +166,8 @@ public class EventLoop {
                 }
                 Point leftTop = Utils.convertToPoint(params[0], params[1]);
                 Point rightBottom = Utils.convertToPoint(params[2], params[3]);
-                outlineColor = Utils.convertToColor(params[4]);
-                fillColor = Utils.convertToColor(params[5]);
-                return ShapeFactory.createRectangle(leftTop, rightBottom, outlineColor, fillColor);
+
+                return applyDecorator(ShapeFactory.createRectangle(leftTop, rightBottom), params[4], params[5]);
             }
             case "CIRCLE" -> {
                 if (params.length != 5) {
@@ -196,11 +175,23 @@ public class EventLoop {
                 }
                 Point center = Utils.convertToPoint(params[0], params[1]);
                 int radius = Utils.convertToNumber(params[2]);
-                outlineColor = Utils.convertToColor(params[3]);
-                fillColor = Utils.convertToColor(params[4]);
-                return ShapeFactory.createCircle(center, radius, outlineColor, fillColor);
+
+                return applyDecorator(ShapeFactory.createCircle(center, radius), params[3], params[4]);
             }
             default -> throw new IOException("Unknown shape type");
         }
+    }
+
+    private IShape applyDecorator(IShape shape, String outlineColor, String fillColor) throws Exception {
+        var wrappedShape = shape;
+
+        if (!outlineColor.isEmpty()) {
+            wrappedShape = new OutlineDecorator(wrappedShape,  Utils.convertToColor(outlineColor));
+        }
+        if (!fillColor.isEmpty()) {
+            wrappedShape = new FillDecorator(wrappedShape,  Utils.convertToColor(fillColor));
+        }
+
+        return wrappedShape;
     }
 }

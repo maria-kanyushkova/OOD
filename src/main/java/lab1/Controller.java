@@ -1,7 +1,8 @@
 package lab1;
 
+import lab1.common.IPhysicShape;
 import lab1.common.IShape;
-import lab1.canvas.ICanvas;
+import lab1.canvas.IPainter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +14,10 @@ public class Controller {
     public ArrayList<String> getShapeInfo() {
         ArrayList<String> result = new ArrayList<>();
         for (IShape shape : shapes) {
-            result.add(getClassName(shape) + ": " + "P=" + shape.getPerimeter() + "; S=" + shape.getArea());
+            if (shape instanceof IPhysicShape) {
+                var physicShape = (IPhysicShape) shape;
+                result.add(getClassName(shape) + ": " + "P=" + physicShape.getPerimeter() + "; S=" + physicShape.getArea());
+            }
         }
         return result;
     }
@@ -30,7 +34,7 @@ public class Controller {
         shapes.add(shape);
     }
 
-    public void draw(ICanvas canvas) {
+    public void draw(IPainter canvas) {
         shapes.forEach(figure -> figure.draw(canvas));
     }
 

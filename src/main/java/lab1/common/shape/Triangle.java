@@ -1,27 +1,18 @@
 package lab1.common.shape;
 
-import lab1.Utils;
-import lab1.canvas.ICanvas;
-import lab1.common.ISolidShape;
+import lab1.canvas.IPainter;
+import lab1.common.IPhysicShape;
 import lab1.common.Point;
-import lab1.common.Shape;
 
-import java.awt.*;
-import java.util.Arrays;
-
-public class Triangle extends Shape implements ISolidShape {
+public class Triangle implements IPhysicShape {
     private Point vertex1;
     private Point vertex2;
     private Point vertex3;
-    private Color outlineColor;
-    private Color fillColor;
 
-    public Triangle(Point vertex1, Point vertex2, Point vertex3, Color outlineColor, Color fillColor) {
+    public Triangle(Point vertex1, Point vertex2, Point vertex3) {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
         this.vertex3 = vertex3;
-        this.outlineColor = outlineColor;
-        this.fillColor = fillColor;
     }
 
     public Point getVertex1() {
@@ -50,35 +41,14 @@ public class Triangle extends Shape implements ISolidShape {
         return (int) (getLineWidth(vertex1, vertex2) + getLineWidth(vertex2, vertex3) + getLineWidth(vertex3, vertex1));
     }
 
-    @Override
-    public Color getOutlineColor() {
-        return outlineColor;
-    }
-
-    @Override
-    public Color getFillColor() {
-        return fillColor;
-    }
-
-    @Override
-    public String toString() {
-        return "Треугольник:\n" +
-                super.toString() +
-                "Цвет заливки: " + Utils.colorToString(fillColor) + "\n" +
-                "Первая точка треугольника: " + vertex1.toString() + "\n" +
-                "Вторая точка треугольника: " + vertex2.toString() + "\n" +
-                "Третья точка треугольника: " + vertex3.toString() + "\n";
-    }
-
     private double getLineWidth(Point point1, Point point2) {
         return Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
     }
 
     @Override
-    public void draw(ICanvas canvas) {
-        canvas.fillPolygon(Arrays.asList(vertex1, vertex2, vertex3), fillColor);
-        canvas.drawLine(vertex1, vertex2, outlineColor);
-        canvas.drawLine(vertex2, vertex3, outlineColor);
-        canvas.drawLine(vertex3, vertex1, outlineColor);
+    public void draw(IPainter painter) {
+        painter.draw(painter.createLine(vertex1, vertex2));
+        painter.draw(painter.createLine(vertex2, vertex3));
+        painter.draw(painter.createLine(vertex3, vertex1));
     }
 }

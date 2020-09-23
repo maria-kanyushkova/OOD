@@ -17,16 +17,16 @@ public class CanvasGraphics extends JPanel {
         });
     }
 
-    public void draw(Shape shape) {
+    public void setStroke(Stroke stroke) {
         painter.add((Graphics2D g2d) -> {
-            g2d.draw(shape);
+            g2d.setStroke(stroke);
             return null;
         });
     }
 
-    public void fill(Shape shape) {
+    public void draw(Shape shape) {
         painter.add((Graphics2D g2d) -> {
-            g2d.fill(shape);
+            g2d.draw(shape);
             return null;
         });
     }
@@ -45,6 +45,8 @@ public class CanvasGraphics extends JPanel {
         initGraphics2D(g2d);
 
         painter.forEach(p -> p.apply(g2d));
+
+        g2d.dispose();
     }
 
     private void initGraphics2D(final Graphics2D g2d) {
