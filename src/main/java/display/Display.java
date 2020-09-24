@@ -45,7 +45,7 @@ public class Display {
             return;
         }
 
-        Graphics graphics = bufferStrategy.getDrawGraphics();
+        Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
         //Clear Screen
         graphics.clearRect(0, 0, width, height);
         //Draw Here!

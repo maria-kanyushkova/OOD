@@ -4,6 +4,8 @@ import lab1.common.IShape;
 import lab1.painter.IPainter;
 import lab1.common.Point;
 
+import java.util.Arrays;
+
 public class Triangle implements IShape {
     private Point vertex1;
     private Point vertex2;
@@ -52,8 +54,6 @@ public class Triangle implements IShape {
 
     @Override
     public void draw(IPainter painter) {
-        painter.draw(painter.createLine(vertex1, vertex2));
-        painter.draw(painter.createLine(vertex2, vertex3));
-        painter.draw(painter.createLine(vertex3, vertex1));
+        painter.draw(painter.createPolygon(Arrays.asList(vertex1, vertex2, vertex3)));
     }
 }

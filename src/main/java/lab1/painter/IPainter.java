@@ -3,6 +3,7 @@ package lab1.painter;
 import lab1.common.Point;
 
 import java.awt.*;
+import java.util.List;
 
 public interface IPainter  {
     void fill(Color color);
@@ -11,7 +12,7 @@ public interface IPainter  {
 
     void draw(Shape shape);
 
-    Shape createLine(Point from, Point to);
+    Shape createPolygon(List<Point> points);
 
     Shape createRectangle(Point position, int width, int height);
 
