@@ -1,10 +1,10 @@
 package lab1.common.shape;
 
-import lab1.canvas.IPainter;
-import lab1.common.IPhysicShape;
+import lab1.common.IShape;
+import lab1.painter.IPainter;
 import lab1.common.Point;
 
-public class Circle implements IPhysicShape {
+public class Circle implements IShape {
     private final double pi = 3.14;
     private Point center;
     private int radius;
@@ -12,6 +12,11 @@ public class Circle implements IPhysicShape {
     public Circle(Point center, int radius) {
         this.center = center;
         this.radius = radius;
+    }
+
+    @Override
+    public String getName() {
+        return "CIRCLE";
     }
 
     public Point getCenter() {

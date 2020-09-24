@@ -1,25 +1,20 @@
-package lab1;
-
 import common.FileManager;
-import lab1.canvas.Painter;
+import lab1.Application;
+import lab1.EventLoop;
+import lab1.ShapeList;
+import lab1.FigureDTO;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main {
-    private static final int FRAME_WIDTH = 1280;
-    private static final int FRAME_HEIGHT = 720;
-    private static final String FRAME_TITLE = "Shapes";
-
+public class Launcher {
     public static void main(String[] args) {
         try {
             FigureDTO figureDTO = parseArgs(args);
-            Controller controller = new Controller();
-            EventLoop eventLoop = new EventLoop(controller);
+            ShapeList list = new ShapeList();
+            EventLoop eventLoop = new EventLoop(list);
             if (figureDTO.getInputPath().isEmpty()) {
                 eventLoop.run();
             } else {
@@ -27,13 +22,10 @@ public class Main {
                 eventLoop.run(inputFile);
             }
 
-            writeShapesInfo(controller.getShapeInfo());
+            writeShapesInfo(list.getShapeInfo());
 
-            JFrame frame = createUIFrame();
-
-            Painter canvas = new Painter();
-            frame.add(canvas.getGraphics());
-            controller.draw(canvas);
+            var application = new Application(list);
+            application.start();
 
         } catch (Exception error) {
             System.out.println(error.getLocalizedMessage());
@@ -46,17 +38,6 @@ public class Main {
             inputPath = args[0];
         }
         return new FigureDTO(inputPath);
-    }
-
-    private static JFrame createUIFrame() {
-        JFrame frame = new JFrame();
-        frame.setTitle(FRAME_TITLE);
-        frame.pack();
-        frame.setLocationByPlatform(true);
-        frame.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setVisible(true);
-        return frame;
     }
 
     private static void writeShapesInfo(ArrayList<String> shapes) throws IOException {

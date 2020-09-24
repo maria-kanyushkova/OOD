@@ -1,10 +1,10 @@
-package lab1.canvas;
+package lab1.painter;
 
 import lab1.common.Point;
 
 import java.awt.*;
 
-public interface IPainter {
+public interface IPainter  {
     void fill(Color color);
 
     void stroke(Color color, float wide);

@@ -1,10 +1,10 @@
 package lab1.common.shape;
 
-import lab1.canvas.IPainter;
-import lab1.common.IPhysicShape;
+import lab1.common.IShape;
+import lab1.painter.IPainter;
 import lab1.common.Point;
 
-public class Triangle implements IPhysicShape {
+public class Triangle implements IShape {
     private Point vertex1;
     private Point vertex2;
     private Point vertex3;
@@ -13,6 +13,11 @@ public class Triangle implements IPhysicShape {
         this.vertex1 = vertex1;
         this.vertex2 = vertex2;
         this.vertex3 = vertex3;
+    }
+
+    @Override
+    public String getName() {
+        return "TRIANGLE";
     }
 
     public Point getVertex1() {

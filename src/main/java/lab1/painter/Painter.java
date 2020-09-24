@@ -1,36 +1,34 @@
-package lab1.canvas;
+package lab1.painter;
 
 import lab1.common.Point;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 public class Painter implements IPainter {
-    private final CanvasGraphics graphics = new CanvasGraphics();
+    private final Renderable renderable = new Renderable();
 
-    public CanvasGraphics getGraphics() {
-        return graphics;
+    public Renderable getRenderable() {
+        return renderable;
     }
 
     @Override
     public void fill(Color color) {
-        graphics.setPaint(color);
+        renderable.setPaint(color);
     }
 
     @Override
     public void stroke(Color color, float wide) {
         BasicStroke stroke = new BasicStroke(wide);
-        graphics.setColor(color);
-        graphics.setStroke(stroke);
+        renderable.setColor(color);
+        renderable.setStroke(stroke);
     }
 
     @Override
     public void draw(Shape shape) {
-        graphics.draw(shape);
+        renderable.draw(shape);
     }
 
     @Override

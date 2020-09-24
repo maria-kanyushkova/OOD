@@ -1,10 +1,10 @@
 package lab1.common.shape;
 
-import lab1.canvas.IPainter;
-import lab1.common.IPhysicShape;
+import lab1.common.IShape;
+import lab1.painter.IPainter;
 import lab1.common.Point;
 
-public class Rectangle implements IPhysicShape {
+public class Rectangle implements IShape {
     private Point leftTop;
     private Point rightBottom;
     private int height;
@@ -15,6 +15,11 @@ public class Rectangle implements IPhysicShape {
         this.width = rightBottom.getX() - leftTop.getX();
         this.leftTop = leftTop;
         this.rightBottom = rightBottom;
+    }
+
+    @Override
+    public String getName() {
+        return "RECTANGLE";
     }
 
     public Point getLeftTop() {

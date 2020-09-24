@@ -1,6 +1,6 @@
 package lab1.common.decorator;
 
-import lab1.canvas.IPainter;
+import lab1.painter.IPainter;
 import lab1.common.IShape;
 
 import java.awt.*;

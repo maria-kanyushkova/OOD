@@ -1,5 +1,7 @@
 package display;
 
+import lab1.painter.IRenderable;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -35,7 +37,7 @@ public class Display {
         frame.pack();
     }
 
-    public void render() {
+    public void render(IRenderable renderable) {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
 
         if (bufferStrategy == null) {
@@ -48,10 +50,7 @@ public class Display {
         graphics.clearRect(0, 0, width, height);
         //Draw Here!
 
-        graphics.setColor(Color.red);
-        graphics.fillRect(10, 50, 50, 70);
-        graphics.setColor(Color.green);
-        graphics.fillRect(0, 0, 10, 10);
+        renderable.render(graphics);
 
         //End Drawing!
         bufferStrategy.show();

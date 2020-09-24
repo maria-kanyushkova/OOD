@@ -2,22 +2,33 @@ package lab1;
 
 import display.Display;
 
+import lab1.painter.Painter;
+
 public class Application implements Runnable {
     private static final int FRAME_WIDTH = 1280;
     private static final int FRAME_HEIGHT = 720;
     private static final String FRAME_TITLE = "Shapes";
 
+    final private ShapeList list;
+
     private Display display;
+    private Thread thread;
+
+    final private Painter painter = new Painter();
 
     private boolean running = false;
-    private Thread thread;
+
+    public Application(ShapeList list) {
+       this.list = list;
+    }
 
     @Override
     public void run() {
         init();
 
         while(running) {
-            display.render();
+            runOnTick();
+            display.render(painter.getRenderable());
         }
 
         stop();
@@ -42,6 +53,10 @@ public class Application implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void runOnTick() {
+        list.getShapes().forEach(figure -> figure.draw(painter));
     }
 
     private void init() {

@@ -6,7 +6,6 @@ import lab1.common.ShapeFactory;
 import lab1.common.decorator.FillDecorator;
 import lab1.common.decorator.OutlineDecorator;
 
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,10 +13,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class EventLoop {
-    private final Controller controller;
+    private final ShapeList list;
 
-    EventLoop(Controller controller) {
-        this.controller = controller;
+    public EventLoop(ShapeList list) {
+        this.list = list;
     }
 
     private static String getMenuInfo() {
@@ -36,7 +35,7 @@ public class EventLoop {
         return scanner.nextLine();
     }
 
-    private static String[] getParams(String[] commands) { // todo: написать парсер строки, чтобы в массив шли чисто цифры
+    private static String[] getParams(String[] commands) {
         ArrayList<String> result = new ArrayList<>();
         String[] params = commands[1].split("; ");
         String[] tempCoords;
@@ -136,7 +135,7 @@ public class EventLoop {
             case "TRIANGLE":
             case "RECTANGLE":
             case "CIRCLE":
-                controller.appendShape(createShape(command, params));
+                list.push(createShape(command, params));
                 break;
             case "draw":
                 break;
