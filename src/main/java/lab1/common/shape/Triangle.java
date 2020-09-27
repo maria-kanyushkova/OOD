@@ -4,6 +4,8 @@ import lab1.common.IShape;
 import lab1.painter.IPainter;
 import lab1.common.Point;
 
+import java.awt.*;
+import java.awt.geom.Path2D;
 import java.util.Arrays;
 
 public class Triangle implements IShape {
@@ -48,12 +50,24 @@ public class Triangle implements IShape {
         return (int) (getLineWidth(vertex1, vertex2) + getLineWidth(vertex2, vertex3) + getLineWidth(vertex3, vertex1));
     }
 
+    @Override
+    public Shape getShape() {
+        var points = Arrays.asList(vertex1, vertex2, vertex3);
+
+        Path2D path = new Path2D.Double();
+        path.moveTo(points.get(0).getX(), points.get(0).getY());
+        points.stream().skip(1).forEach(point -> path.lineTo(point.getX(), point.getY()));
+        path.closePath();
+
+        return path;
+    }
+
     private double getLineWidth(Point point1, Point point2) {
         return Math.sqrt(Math.pow(point2.getX() - point1.getX(), 2) + Math.pow(point2.getY() - point1.getY(), 2));
     }
 
     @Override
     public void draw(IPainter painter) {
-        painter.draw(painter.createPolygon(Arrays.asList(vertex1, vertex2, vertex3)));
+        painter.draw(getShape());
     }
 }

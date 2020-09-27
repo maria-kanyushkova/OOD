@@ -29,15 +29,14 @@ public class Renderable implements IRenderable {
 
     public void draw(Shape shape) {
         painter.add((Graphics2D g2d) -> {
-            g2d.fill(shape);
             g2d.draw(shape);
             return null;
         });
     }
 
-    public void setPaint(Color color) {
+    public void fill(Shape shape) {
         painter.add((Graphics2D g2d) -> {
-            g2d.setPaint(color);
+            g2d.fill(shape);
             return null;
         });
     }

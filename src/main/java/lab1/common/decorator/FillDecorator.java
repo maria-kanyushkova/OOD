@@ -14,7 +14,7 @@ public class FillDecorator extends ShapeDecorator {
     }
 
     public void draw(IPainter painter) {
-        painter.fill(this.fillColor);
+        painter.fill(getShape(), fillColor);
         super.draw(painter);
     }
 }

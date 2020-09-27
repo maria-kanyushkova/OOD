@@ -184,12 +184,12 @@ public class EventLoop {
     private IShape applyDecorator(IShape shape, String outlineColor, String fillColor) throws Exception {
         var wrappedShape = shape;
 
-        if (!fillColor.isEmpty()) {
-            wrappedShape = new FillDecorator(wrappedShape,  Utils.convertToColor(fillColor));
-        }
-
         if (!outlineColor.isEmpty()) {
             wrappedShape = new OutlineDecorator(wrappedShape,  Utils.convertToColor(outlineColor));
+        }
+
+        if (!fillColor.isEmpty()) {
+            wrappedShape = new FillDecorator(wrappedShape,  Utils.convertToColor(fillColor));
         }
 
         return wrappedShape;

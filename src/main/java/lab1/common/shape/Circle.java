@@ -4,6 +4,9 @@ import lab1.common.IShape;
 import lab1.painter.IPainter;
 import lab1.common.Point;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
 public class Circle implements IShape {
     private final double pi = 3.14;
     private Point center;
@@ -38,7 +41,12 @@ public class Circle implements IShape {
     }
 
     @Override
+    public Shape getShape() {
+        return new Ellipse2D.Double(center.getX(), center.getY(), radius, radius);
+    }
+
+    @Override
     public void draw(IPainter painter) {
-        painter.draw(painter.createEllipse(center, radius));
+        painter.draw(getShape());
     }
 }

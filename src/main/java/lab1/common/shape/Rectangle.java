@@ -4,6 +4,9 @@ import lab1.common.IShape;
 import lab1.painter.IPainter;
 import lab1.common.Point;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 public class Rectangle implements IShape {
     private Point leftTop;
     private Point rightBottom;
@@ -49,7 +52,12 @@ public class Rectangle implements IShape {
     }
 
     @Override
+    public Shape getShape() {
+        return new Rectangle2D.Double(leftTop.getX(), leftTop.getY(), width, height);
+    }
+
+    @Override
     public void draw(IPainter painter) {
-        painter.draw(painter.createRectangle(leftTop, width, height));
+        painter.draw(getShape());
     }
 }

@@ -14,7 +14,7 @@ public class OutlineDecorator extends ShapeDecorator {
     }
 
     public void draw(IPainter painter) {
-        painter.stroke(outlineColor, 2.f);
+        painter.stroke(getShape(), outlineColor, 2.f);
         super.draw(painter);
     }
 }
