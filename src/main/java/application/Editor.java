@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Editor implements IDrawable {
-    private List<IShape> shapes = new ArrayList<>();
+    private final List<IShape> shapes = new ArrayList<>();
 
     public Editor() {
         // TODO: remove it later - need for testing
