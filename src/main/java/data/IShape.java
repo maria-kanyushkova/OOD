@@ -4,7 +4,6 @@ import math.Point;
 import math.Size;
 
 public interface IShape {
-
     void setPosition(Point position);
     Point getPosition();
 
