@@ -1,8 +1,7 @@
-package lab1.common;
+package math;
 
 public class Point {
-    private int x;
-    private int y;
+    private final int x, y;
 
     public Point(int x, int y) {
         this.x = x;
@@ -15,9 +14,5 @@ public class Point {
 
     public int getY() {
         return y;
-    }
-
-    public String toString() {
-        return "x:" + x + " y:" + y;
     }
 }
