@@ -55,6 +55,16 @@ public class ShapeGroup implements IShape, IDrawable {
     }
 
     @Override
+    public boolean isContains(Point point) {
+        for (IShape shape : shapes) {
+            if (shape.isContains(point)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public void draw(Graphics2D graphics) {
         shapes.forEach(shape -> {
             if (shape instanceof IDrawable) {

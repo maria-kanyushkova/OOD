@@ -38,6 +38,11 @@ public class Shape implements IShape, IDrawable {
     }
 
     @Override
+    public boolean isContains(Point point) {
+        return strategy.isContains(point);
+    }
+
+    @Override
     public void draw(Graphics2D graphics) {
         strategy.draw(graphics);
     }

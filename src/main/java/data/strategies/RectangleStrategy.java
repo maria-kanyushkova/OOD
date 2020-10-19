@@ -1,8 +1,9 @@
 package data.strategies;
 
 import data.IShape;
+import math.Point;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 public class RectangleStrategy implements IDrawShapeStrategy {
@@ -22,5 +23,15 @@ public class RectangleStrategy implements IDrawShapeStrategy {
     @Override
     public void setShapeData(IShape shape) {
         this.shape = shape;
+    }
+
+    @Override
+    public boolean isContains(Point point) {
+        var position = shape.getPosition();
+        var size = shape.getSize();
+        var leftTopPoint = new Point(position.getX(), position.getY());
+        var rightBottomPoint = new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight());
+
+        return point.getX() >= leftTopPoint.getX() && point.getX() <= rightBottomPoint.getX() && point.getY() >= leftTopPoint.getY() && point.getY() <= rightBottomPoint.getY();
     }
 }

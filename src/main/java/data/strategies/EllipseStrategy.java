@@ -1,8 +1,9 @@
 package data.strategies;
 
 import data.IShape;
+import math.Point;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
 public class EllipseStrategy implements IDrawShapeStrategy {
@@ -16,11 +17,21 @@ public class EllipseStrategy implements IDrawShapeStrategy {
 
         var position = shape.getPosition();
         var size = shape.getSize();
-        graphics.draw(new Ellipse2D.Double(position.getX(), position.getY(), size.getWidth() / 2.f, size.getHeight() / 2.f));
+        graphics.draw(new Ellipse2D.Double(position.getX(), position.getY(), size.getWidth(), size.getHeight()));
     }
 
     @Override
     public void setShapeData(IShape shape) {
         this.shape = shape;
+    }
+
+    @Override
+    public boolean isContains(Point point) {
+        var position = shape.getPosition();
+        var size = shape.getSize();
+
+        var center = new Point(position.getX() + size.getWidth() / 2, position.getY() + size.getHeight() / 2);
+
+        return (Math.pow((point.getX() - center.getX()) * 2 / size.getWidth(), 2) + Math.pow((point.getY() - center.getY()) * 2 / size.getHeight(), 2)) <= 1;
     }
 }

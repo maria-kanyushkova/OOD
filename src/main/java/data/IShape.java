@@ -9,4 +9,6 @@ public interface IShape {
 
     void setSize(Size size);
     Size getSize();
+
+    boolean isContains(Point point);
 }
