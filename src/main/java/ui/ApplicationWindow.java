@@ -16,7 +16,6 @@ public class ApplicationWindow extends JFrame {
         setResizable(false);
 
         var editor = new Editor();
-
         var canvas = new EditorCanvas(editor);
         canvas.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
