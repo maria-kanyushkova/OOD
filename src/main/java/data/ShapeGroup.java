@@ -5,17 +5,26 @@ import math.Size;
 import ui.IDrawable;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShapeGroup implements IShape, IDrawable {
-    private final ArrayList<IShape> shapes;
+    private final List<IShape> shapes;
+    private final UUID id = UUID.randomUUID();
+
     private Size size = new Size(0, 0);
     private Point position = new Point(0, 0);
 
-    public ShapeGroup(ArrayList<IShape> shapes) {
+
+    public ShapeGroup(List<IShape> shapes) {
         this.shapes = shapes;
         updatePhysicAttributes();
+    }
+
+    @Override
+    public UUID getID() {
+        return id;
     }
 
     @Override
@@ -62,6 +71,10 @@ public class ShapeGroup implements IShape, IDrawable {
             }
         }
         return false;
+    }
+
+    public List<IShape> children() {
+        return shapes;
     }
 
     @Override

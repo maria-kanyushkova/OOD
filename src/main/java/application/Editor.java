@@ -1,5 +1,6 @@
 package application;
 
+import data.ShapeGroup;
 import data.strategies.EllipseStrategy;
 import data.strategies.IDrawShapeStrategy;
 import data.strategies.RectangleStrategy;
@@ -10,12 +11,13 @@ import data.IShape;
 import data.Shape;
 import ui.IDrawable;
 
-import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Editor implements IDrawable {
+public class Editor {
     private final List<IShape> shapes = new ArrayList<>();
+    private List<UUID> selectedShapes = new ArrayList<>();
 
     public Editor() {
         // TODO: remove it later - need for testing
@@ -31,12 +33,72 @@ public class Editor implements IDrawable {
         shapes.add(shape);
     }
 
-    @Override
-    public void draw(Graphics2D graphics) {
-        shapes.forEach(shape -> {
-            if (shape instanceof IDrawable) {
-                ((IDrawable) shape).draw(graphics);
-            }
+    public void group() {
+        var selectedShapes = getSelectedShapes();
+        if (selectedShapes.size() <= 1) {
+            // need throw exception
+            System.out.println("Can't group a one shape");
+            return;
+        }
+
+        var group = new ShapeGroup(selectedShapes);
+
+        shapes.add(group);
+        // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
+        shapes.removeIf(shape -> selectedShapes.contains(shape.getID()));
+
+        selectImpl(Collections.singletonList(group.getID()), false);
+    }
+
+    public void ungroup() {
+        var selectedShapes = getSelectedShapes();
+
+        var groups =  selectedShapes.stream()
+                .filter(shape -> shape instanceof ShapeGroup)
+                .collect(Collectors.toList());
+        if (groups.size() == 0) {
+            // need throw exception
+            System.out.println("No has groups");
+            return;
+        }
+
+        groups.forEach( shape -> {
+            var group = (ShapeGroup) shape;
+            shapes.remove(group);
+            shapes.addAll(group.children());
         });
+    }
+
+    public void select(Point coordinate, boolean isMulti) {
+        var selectedItems = new ArrayList<UUID>();
+
+        for (IShape shape : shapes) {
+            if (shape.isContains(coordinate)) {
+                selectedItems.add(shape.getID());
+            }
+        }
+
+        selectImpl(selectedItems, isMulti);
+    }
+
+    public List<IShape> getSelectedShapes() {
+        return shapes.stream()
+                .filter(shape -> selectedShapes.contains(shape.getID()))
+                .collect(Collectors.toList());
+    }
+
+    public List<IDrawable> getDrawableItems() {
+        return shapes.stream()
+                .map(shape -> (IDrawable) shape)
+                .collect(Collectors.toList());
+    }
+
+    private void selectImpl(List<UUID> selectedItems, boolean isMulti) {
+        if (isMulti) {
+            selectedItems.addAll(this.selectedShapes);
+            selectedItems.removeIf(id -> this.selectedShapes.contains(id));
+        }
+
+        this.selectedShapes = selectedItems;
     }
 }

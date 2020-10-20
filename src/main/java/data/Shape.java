@@ -6,15 +6,23 @@ import data.strategies.IDrawShapeStrategy;
 import ui.IDrawable;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class Shape implements IShape, IDrawable {
     private Size size = new Size(100, 100);
     private Point position = new Point(0, 0);
+
     private final IDrawShapeStrategy strategy;
+    private final UUID id = UUID.randomUUID();
 
     public Shape(IDrawShapeStrategy strategy) {
         this.strategy = strategy;
         this.strategy.setShapeData(this);
+    }
+
+    @Override
+    public UUID getID() {
+        return id;
     }
 
     @Override

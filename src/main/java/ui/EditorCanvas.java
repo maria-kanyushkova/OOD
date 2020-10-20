@@ -7,12 +7,16 @@ import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 
 public class EditorCanvas extends Canvas {
-    private final Editor model;
+    private final Editor editor;
 
-    public EditorCanvas(Editor model) {
+    private SelectionFrame frame = new SelectionFrame();
+
+    public EditorCanvas(Editor editor) {
         super();
 
-        this.model = model;
+        this.editor = editor;
+
+        setBackground(Color.WHITE);
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
@@ -20,10 +24,10 @@ public class EditorCanvas extends Canvas {
                 var isControl = (mods & InputEvent.CTRL_DOWN_MASK) != 0;
 
                 if (isControl && e.getKeyCode() == KeyEvent.VK_G) {
-                    System.out.println("Pressed ctrl+G");
+                    editor.group();
                 }
                 else if (isControl && e.getKeyCode() == KeyEvent.VK_U) {
-                    System.out.println("Pressed ctrl+U");
+                    editor.ungroup();
                 }
             }
         });
@@ -33,8 +37,7 @@ public class EditorCanvas extends Canvas {
                 int mods = e.getModifiersEx();
                 var isShift = (mods & InputEvent.SHIFT_DOWN_MASK) != 0;
                 if (e.getButton() == MouseEvent.BUTTON1) {
-                    System.out.println("Clicked Shift+LeftClick multi" + isShift);
-                    System.out.println("Position: " + e.getX() + ' ' + e.getY());
+                    editor.select(new math.Point(e.getX(), e.getY()), isShift);
                 }
             }
         });
@@ -51,10 +54,14 @@ public class EditorCanvas extends Canvas {
 
         Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
         //Clear Screen
-        graphics.clearRect(0, 0, getWidth(), getHeight());
+        super.paint(graphics);
         //Draw Here!
 
-        model.draw(graphics);
+        for (IDrawable item : editor.getDrawableItems()) {
+            item.draw(graphics);
+        }
+
+        frame.paint(graphics);
 
         //End Drawing!
         bufferStrategy.show();

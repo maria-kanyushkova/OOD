@@ -3,7 +3,11 @@ package data;
 import math.Point;
 import math.Size;
 
+import java.util.UUID;
+
 public interface IShape {
+    UUID getID();
+
     void setPosition(Point position);
     Point getPosition();
 
