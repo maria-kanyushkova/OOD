@@ -4,7 +4,6 @@ import application.Editor;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferStrategy;
 
 public class EditorCanvas extends Canvas {
     private final Editor editor;
@@ -22,11 +21,12 @@ public class EditorCanvas extends Canvas {
             public void keyPressed(KeyEvent e) {
                 int mods = e.getModifiersEx();
                 var isControl = (mods & InputEvent.CTRL_DOWN_MASK) != 0;
+                var keyCode = e.getKeyCode();
 
-                if (isControl && e.getKeyCode() == KeyEvent.VK_G) {
+                if (isControl && keyCode == KeyEvent.VK_G) {
                     editor.group();
                 }
-                else if (isControl && e.getKeyCode() == KeyEvent.VK_U) {
+                else if (isControl && keyCode == KeyEvent.VK_U) {
                     editor.ungroup();
                 }
             }
@@ -45,26 +45,15 @@ public class EditorCanvas extends Canvas {
 
     @Override
     public void paint(Graphics g) {
-        BufferStrategy bufferStrategy = getBufferStrategy();
+        super.paint(g);
 
-        if (bufferStrategy == null) {
-            createBufferStrategy(3);
-            return;
-        }
+        Graphics2D graphics = (Graphics2D) g;
 
-        Graphics2D graphics = (Graphics2D) bufferStrategy.getDrawGraphics();
-        //Clear Screen
-        super.paint(graphics);
-        //Draw Here!
-
+        System.out.println(editor.getDrawableItems().toString());
         for (IDrawable item : editor.getDrawableItems()) {
             item.draw(graphics);
         }
 
         frame.paint(graphics);
-
-        //End Drawing!
-        bufferStrategy.show();
-        graphics.dispose();
     }
 }
