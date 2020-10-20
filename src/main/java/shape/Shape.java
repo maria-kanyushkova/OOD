@@ -15,12 +15,6 @@ public class Shape extends AbstractShape {
     }
 
     @Override
-    public void setSelected(boolean selected) {
-        super.setSelected(selected);
-        frame.setVisible(selected);
-    }
-
-    @Override
     public boolean isContains(Point point) {
         return strategy.isContains(point);
     }
@@ -28,6 +22,8 @@ public class Shape extends AbstractShape {
     @Override
     public void draw(Graphics2D graphics) {
         strategy.draw(graphics);
-        frame.paint(graphics);
+        if (isSelected()) {
+            frame.paint(graphics);
+        }
     }
 }

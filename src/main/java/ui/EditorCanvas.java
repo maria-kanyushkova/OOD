@@ -8,8 +8,6 @@ import java.awt.event.*;
 public class EditorCanvas extends Canvas {
     private final Editor editor;
 
-    private SelectionFrame frame = new SelectionFrame();
-
     public EditorCanvas(Editor editor) {
         super();
 
@@ -33,7 +31,7 @@ public class EditorCanvas extends Canvas {
         });
 
         addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 int mods = e.getModifiersEx();
                 var isShift = (mods & InputEvent.SHIFT_DOWN_MASK) != 0;
                 if (e.getButton() == MouseEvent.BUTTON1) {
@@ -49,7 +47,6 @@ public class EditorCanvas extends Canvas {
 
         Graphics2D graphics = (Graphics2D) g;
 
-        System.out.println(editor.getDrawableItems().toString());
         for (IDrawable item : editor.getDrawableItems()) {
             item.draw(graphics);
         }

@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 public class Editor {
     private final List<IShape> shapes = new ArrayList<>();
-    private List<UUID> selectedShapes = new ArrayList<>();
 
     public Editor() {
         // TODO: remove it later - need for testing
@@ -45,7 +44,7 @@ public class Editor {
         // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
         shapes.removeIf(shape -> selectedShapes.contains(shape.getID()));
 
-        selectImpl(Collections.singletonList(group.getID()), false);
+        selectImpl(new ArrayList<>(Arrays.asList(group.getID())), false);
     }
 
     public void ungroup() {
@@ -60,28 +59,35 @@ public class Editor {
             return;
         }
 
+        var children = new ArrayList<IShape>();
+
         groups.forEach( shape -> {
             var group = (ShapeGroup) shape;
             shapes.remove(group);
-            shapes.addAll(group.children());
+            children.addAll(group.children());
         });
+
+        shapes.addAll(children);
+
+        selectImpl(children.stream().map(shape -> shape.getID()).collect(Collectors.toList()), false);
     }
 
     public void select(Point coordinate, boolean isMulti) {
-        var selectedItems = new ArrayList<UUID>();
+        IShape selectedShape = null;
 
         for (IShape shape : shapes) {
             if (shape.isContains(coordinate)) {
-                selectedItems.add(shape.getID());
+                selectedShape = shape;
+                break;
             }
         }
 
-        selectImpl(selectedItems, isMulti);
+        selectImpl(selectedShape != null ? new ArrayList(Arrays.asList(selectedShape.getID())) : new ArrayList<>(), isMulti);
     }
 
     public List<IShape> getSelectedShapes() {
         return shapes.stream()
-                .filter(shape -> selectedShapes.contains(shape.getID()))
+                .filter(shape -> shape.isSelected())
                 .collect(Collectors.toList());
     }
 
@@ -93,10 +99,16 @@ public class Editor {
 
     private void selectImpl(List<UUID> selectedItems, boolean isMulti) {
         if (isMulti) {
-            selectedItems.addAll(this.selectedShapes);
-            selectedItems.removeIf(id -> this.selectedShapes.contains(id));
+            var oldSelectedShapes = getSelectedShapes();
+            oldSelectedShapes.forEach(shape -> {
+                if (selectedItems.contains(shape.getID())) {
+                    selectedItems.remove(shape.getID());
+                } else {
+                    selectedItems.add(shape.getID());
+                }
+            });
         }
 
-        this.selectedShapes = selectedItems;
+        shapes.forEach(shape -> shape.setSelected(selectedItems.contains(shape.getID())));
     }
 }

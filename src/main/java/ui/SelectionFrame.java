@@ -5,15 +5,11 @@ import java.awt.*;
 public class SelectionFrame extends Component {
 
     public SelectionFrame() {
-        setVisible(false);
+        setVisible(true);
     }
 
     @Override
     public void paint(Graphics g) {
-        if (!isVisible()) {
-            return;
-        }
-
         Graphics2D graphics = (Graphics2D) g;
 
         graphics.setColor(Color.ORANGE);
