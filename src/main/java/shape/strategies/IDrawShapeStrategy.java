@@ -1,6 +1,6 @@
-package data.strategies;
+package shape.strategies;
 
-import data.IShape;
+import shape.IShape;
 import math.Point;
 
 import java.awt.Graphics2D;

@@ -1,4 +1,4 @@
-package data;
+package shape;
 
 import math.Point;
 import math.Size;
@@ -15,4 +15,7 @@ public interface IShape {
     Size getSize();
 
     boolean isContains(Point point);
+
+    void setSelected(boolean selected);
+    boolean isSelected();
 }

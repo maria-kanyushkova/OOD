@@ -1,4 +1,4 @@
-package data;
+package shape;
 
 import math.Point;
 import math.Size;
@@ -6,25 +6,14 @@ import ui.IDrawable;
 
 import java.awt.*;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ShapeGroup implements IShape, IDrawable {
+public class ShapeGroup extends AbstractShape {
     private final List<IShape> shapes;
-    private final UUID id = UUID.randomUUID();
-
-    private Size size = new Size(0, 0);
-    private Point position = new Point(0, 0);
-
 
     public ShapeGroup(List<IShape> shapes) {
         this.shapes = shapes;
         updatePhysicAttributes();
-    }
-
-    @Override
-    public UUID getID() {
-        return id;
     }
 
     @Override
@@ -37,12 +26,7 @@ public class ShapeGroup implements IShape, IDrawable {
             shape.setPosition(new Point(oldPosition.getX() + deltaX, oldPosition.getY() + deltaY));
         });
 
-        setPositionImpl(position);
-    }
-
-    @Override
-    public Point getPosition() {
-        return position;
+        super.setPosition(position);
     }
 
     @Override
@@ -55,12 +39,7 @@ public class ShapeGroup implements IShape, IDrawable {
             shape.setSize(new Size(oldSize.getWidth() * deltaWidth, oldSize.getHeight() * deltaHeight));
         });
 
-        setSizeImpl(size);
-    }
-
-    @Override
-    public Size getSize() {
-        return size;
+        super.setSize(size);
     }
 
     @Override
@@ -101,15 +80,7 @@ public class ShapeGroup implements IShape, IDrawable {
             bottom.set(Math.max(position.getY() + size.getHeight(), top.get()));
         });
 
-        setPositionImpl(new Point(left.get(), top.get()));
-        setSizeImpl(new Size(right.get() - left.get(), bottom.get() - top.get()));
-    }
-
-    private void setSizeImpl(Size size) {
-        this.size = size;
-    }
-
-    private void setPositionImpl(Point position) {
-        this.position = position;
+        super.setPosition(new Point(left.get(), top.get()));
+        super.setSize(new Size(right.get() - left.get(), bottom.get() - top.get()));
     }
 }

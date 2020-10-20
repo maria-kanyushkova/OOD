@@ -4,6 +4,11 @@ import java.awt.*;
 
 public class SelectionFrame extends Component {
 
+    public SelectionFrame() {
+        setVisible(false);
+    }
+
+    @Override
     public void paint(Graphics g) {
         if (!isVisible()) {
             return;
@@ -12,6 +17,6 @@ public class SelectionFrame extends Component {
         Graphics2D graphics = (Graphics2D) g;
 
         graphics.setColor(Color.ORANGE);
-        graphics.drawRect(0, 0, 100, 100);
+        graphics.drawRect(getX(), getY(), getWidth(), getHeight());
     }
 }

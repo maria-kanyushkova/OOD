@@ -1,14 +1,12 @@
 package application;
 
-import data.ShapeGroup;
-import data.strategies.EllipseStrategy;
-import data.strategies.IDrawShapeStrategy;
-import data.strategies.RectangleStrategy;
-import data.strategies.TriangleStrategy;
+import shape.ShapeGroup;
+import shape.strategies.EllipseStrategy;
+import shape.strategies.IDrawShapeStrategy;
 import math.Point;
 import math.Size;
-import data.IShape;
-import data.Shape;
+import shape.IShape;
+import shape.Shape;
 import ui.IDrawable;
 
 import java.util.*;

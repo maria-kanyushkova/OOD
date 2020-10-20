@@ -53,7 +53,5 @@ public class EditorCanvas extends Canvas {
         for (IDrawable item : editor.getDrawableItems()) {
             item.draw(graphics);
         }
-
-        frame.paint(graphics);
     }
 }
