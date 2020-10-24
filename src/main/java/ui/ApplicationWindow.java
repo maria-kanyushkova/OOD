@@ -35,7 +35,7 @@ public class ApplicationWindow extends JFrame {
                 while ( true ) {
                     //sleep for moment
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(60);
                     } catch (InterruptedException e) {
                         break;
                     }

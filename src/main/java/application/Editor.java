@@ -44,7 +44,7 @@ public class Editor {
 
         shapes.add(group);
         // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
-        shapes.removeIf(shape -> selectedShapes.contains(shape.getID()));
+        shapes.removeIf(shape -> selectedShapes.contains(shape));
 
         selectImpl(new ArrayList<>(Arrays.asList(group.getID())), false);
     }
