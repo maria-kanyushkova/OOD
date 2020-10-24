@@ -3,7 +3,7 @@ package shape.strategies;
 import shape.IShape;
 import math.Point;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +24,7 @@ public class TriangleStrategy implements IDrawShapeStrategy {
         points.stream().skip(1).forEach(point -> path.lineTo(point.getX(), point.getY()));
         path.closePath();
 
+        graphics.setColor(Color.BLACK);
         graphics.draw(path);
     }
 

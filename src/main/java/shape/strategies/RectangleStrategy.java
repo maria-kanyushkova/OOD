@@ -3,7 +3,7 @@ package shape.strategies;
 import shape.IShape;
 import math.Point;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class RectangleStrategy implements IDrawShapeStrategy {
@@ -17,6 +17,8 @@ public class RectangleStrategy implements IDrawShapeStrategy {
 
         var position = shape.getPosition();
         var size = shape.getSize();
+
+        graphics.setColor(Color.BLACK);
         graphics.draw(new Rectangle2D.Double(position.getX(), position.getY(), size.getWidth(), size.getHeight()));
     }
 

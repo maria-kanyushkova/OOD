@@ -3,7 +3,7 @@ package shape.strategies;
 import shape.IShape;
 import math.Point;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class EllipseStrategy implements IDrawShapeStrategy {
@@ -17,7 +17,8 @@ public class EllipseStrategy implements IDrawShapeStrategy {
 
         var position = shape.getPosition();
         var size = shape.getSize();
-        graphics.draw(new Ellipse2D.Double(position.getX(), position.getY(), size.getWidth(), size.getHeight()));
+        graphics.setColor(Color.BLACK);
+        graphics.draw(new Ellipse2D.Double(position.getX() - 2, position.getY() - 2, size.getWidth() + 2 , size.getHeight() + 2));
     }
 
     @Override
