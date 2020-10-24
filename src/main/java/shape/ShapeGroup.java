@@ -19,7 +19,7 @@ public class ShapeGroup extends AbstractShape {
     @Override
     public void setPosition(Point position) {
         var deltaX = position.getX() - this.position.getX();
-        var deltaY = position.getY() / this.position.getY();
+        var deltaY = position.getY() - this.position.getY();
 
         shapes.forEach(shape -> {
             var oldPosition = shape.getPosition();
@@ -63,7 +63,9 @@ public class ShapeGroup extends AbstractShape {
                 ((IDrawable) shape).draw(graphics);
             }
         });
-        frame.paint(graphics);
+        if (isSelected()) {
+            frame.paint(graphics);
+        }
     }
 
     private void updatePhysicAttributes() {
