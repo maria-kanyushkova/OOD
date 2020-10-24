@@ -5,6 +5,7 @@ import math.Size;
 import ui.IDrawable;
 import ui.SelectionFrame;
 
+import java.awt.*;
 import java.util.UUID;
 
 public abstract class AbstractShape implements IShape, IDrawable {
@@ -15,7 +16,7 @@ public abstract class AbstractShape implements IShape, IDrawable {
     protected final SelectionFrame frame = new SelectionFrame();
 
     @Override
-    public UUID getID() {
+    public final UUID getID() {
         return id;
     }
 
@@ -26,7 +27,7 @@ public abstract class AbstractShape implements IShape, IDrawable {
     }
 
     @Override
-    public Point getPosition() {
+    public final Point getPosition() {
         return position;
     }
 
@@ -37,18 +38,25 @@ public abstract class AbstractShape implements IShape, IDrawable {
     }
 
     @Override
-    public Size getSize() {
+    public final Size getSize() {
         return size;
     }
 
     @Override
-    public void setSelected(boolean selected) {
+    public final void setSelected(boolean selected) {
         this.selected = selected;
         frame.setVisible(selected);
     }
 
     @Override
-    public boolean isSelected() {
+    public final boolean isSelected() {
         return selected;
+    }
+
+    @Override
+    public void draw(Graphics2D graphics) {
+        if (isSelected()) {
+            frame.paint(graphics);
+        }
     }
 }

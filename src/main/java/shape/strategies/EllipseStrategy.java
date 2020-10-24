@@ -18,7 +18,7 @@ public class EllipseStrategy implements IDrawShapeStrategy {
         var position = shape.getPosition();
         var size = shape.getSize();
         graphics.setColor(Color.BLACK);
-        graphics.draw(new Ellipse2D.Double(position.getX() - 2, position.getY() - 2, size.getWidth() + 2 , size.getHeight() + 2));
+        graphics.draw(new Ellipse2D.Double(position.getX(), position.getY(), size.getWidth(), size.getHeight()));
     }
 
     @Override

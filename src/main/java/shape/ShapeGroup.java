@@ -63,9 +63,7 @@ public class ShapeGroup extends AbstractShape {
                 ((IDrawable) shape).draw(graphics);
             }
         });
-        if (isSelected()) {
-            frame.paint(graphics);
-        }
+        super.draw(graphics);
     }
 
     private void updatePhysicAttributes() {

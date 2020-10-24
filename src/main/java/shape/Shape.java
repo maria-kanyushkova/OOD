@@ -8,7 +8,6 @@ import java.awt.*;
 public class Shape extends AbstractShape {
     private final IDrawShapeStrategy strategy;
 
-
     public Shape(IDrawShapeStrategy strategy) {
         this.strategy = strategy;
         this.strategy.setShapeData(this);
@@ -22,8 +21,6 @@ public class Shape extends AbstractShape {
     @Override
     public void draw(Graphics2D graphics) {
         strategy.draw(graphics);
-        if (isSelected()) {
-            frame.paint(graphics);
-        }
+        super.draw(graphics);
     }
 }

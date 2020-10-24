@@ -43,10 +43,11 @@ public class Editor {
         var group = new ShapeGroup(selectedShapes);
 
         shapes.add(group);
-        // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
-        shapes.removeIf(shape -> selectedShapes.contains(shape));
 
         selectImpl(new ArrayList<>(Arrays.asList(group.getID())), false);
+
+        // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
+        shapes.removeIf(shape -> selectedShapes.contains(shape));
     }
 
     public void ungroup() {
