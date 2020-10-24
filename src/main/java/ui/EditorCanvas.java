@@ -1,9 +1,9 @@
 package ui;
 
 import application.Editor;
+import controller.InteractionController;
 
 import java.awt.*;
-import java.awt.event.*;
 
 public class EditorCanvas extends Canvas {
     private final Editor editor;
@@ -12,33 +12,9 @@ public class EditorCanvas extends Canvas {
         super();
 
         this.editor = editor;
+        var controller = new InteractionController(editor, this);
 
         setBackground(Color.WHITE);
-
-        addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
-                int mods = e.getModifiersEx();
-                var isControl = (mods & InputEvent.CTRL_DOWN_MASK) != 0;
-                var keyCode = e.getKeyCode();
-
-                if (isControl && keyCode == KeyEvent.VK_G) {
-                    editor.group();
-                }
-                else if (isControl && keyCode == KeyEvent.VK_U) {
-                    editor.ungroup();
-                }
-            }
-        });
-
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                int mods = e.getModifiersEx();
-                var isShift = (mods & InputEvent.SHIFT_DOWN_MASK) != 0;
-                if (e.getButton() == MouseEvent.BUTTON1) {
-                    editor.select(new math.Point(e.getX(), e.getY()), isShift);
-                }
-            }
-        });
     }
 
     @Override

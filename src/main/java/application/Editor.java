@@ -7,6 +7,8 @@ import math.Point;
 import math.Size;
 import shape.IShape;
 import shape.Shape;
+import shape.strategies.RectangleStrategy;
+import shape.strategies.TriangleStrategy;
 import ui.IDrawable;
 
 import java.util.*;
@@ -72,17 +74,18 @@ public class Editor {
         selectImpl(children.stream().map(shape -> shape.getID()).collect(Collectors.toList()), false);
     }
 
-    public void select(Point coordinate, boolean isMulti) {
-        IShape selectedShape = null;
+    public void select(IShape shape, boolean isMulti) {
+        selectImpl(shape != null ? new ArrayList(Arrays.asList(shape.getID())) : new ArrayList<>(), isMulti);
+    }
 
+    public IShape getInterceptingShape(Point coordinate) {
         for (IShape shape : shapes) {
             if (shape.isContains(coordinate)) {
-                selectedShape = shape;
-                break;
+                return shape;
             }
         }
 
-        selectImpl(selectedShape != null ? new ArrayList(Arrays.asList(selectedShape.getID())) : new ArrayList<>(), isMulti);
+        return null;
     }
 
     public List<IShape> getSelectedShapes() {
