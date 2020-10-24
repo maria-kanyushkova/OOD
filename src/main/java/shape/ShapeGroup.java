@@ -63,6 +63,7 @@ public class ShapeGroup extends AbstractShape {
                 ((IDrawable) shape).draw(graphics);
             }
         });
+        frame.paint(graphics);
     }
 
     private void updatePhysicAttributes() {
@@ -76,8 +77,8 @@ public class ShapeGroup extends AbstractShape {
             var size = shape.getSize();
             left.set(Math.min(position.getX(), left.get()));
             top.set(Math.min(position.getY(), top.get()));
-            right.set(Math.max(position.getX() + size.getWidth(), top.get()));
-            bottom.set(Math.max(position.getY() + size.getHeight(), top.get()));
+            right.set(Math.max(position.getX() + size.getWidth(), right.get()));
+            bottom.set(Math.max(position.getY() + size.getHeight(), bottom.get()));
         });
 
         super.setPosition(new Point(left.get(), top.get()));
