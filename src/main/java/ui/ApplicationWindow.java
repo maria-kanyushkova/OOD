@@ -19,6 +19,9 @@ public class ApplicationWindow extends JFrame {
         setResizable(false);
 
         var editor = new Editor();
+
+        createMenuBar(editor);
+
         canvas = new EditorCanvas(editor);
         canvas.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
@@ -64,5 +67,30 @@ public class ApplicationWindow extends JFrame {
         //End Drawing!
         bufferStrategy.show();
         graphics.dispose();
+    }
+
+    private void createMenuBar(Editor editor) {
+        var menuBar = new JMenuBar();
+        var tools = new JMenu("Tools");
+
+        var createRectangleItem = new JMenuItem("Rectangle");
+        createRectangleItem.setToolTipText("Create rectangle");
+        createRectangleItem.addActionListener((event) -> editor.createRectangle());
+
+        var createTriangleItem = new JMenuItem("Triangle");
+        createTriangleItem.setToolTipText("Create triangle");
+        createTriangleItem.addActionListener((event) -> editor.createTriangle());
+
+        var createEllipseItem = new JMenuItem("Ellipse");
+        createEllipseItem.setToolTipText("Create ellipse");
+        createEllipseItem.addActionListener((event) -> editor.createEllipse());
+
+        tools.add(createRectangleItem);
+        tools.add(createTriangleItem);
+        tools.add(createEllipseItem);
+
+        menuBar.add(tools);
+
+        setJMenuBar(menuBar);
     }
 }

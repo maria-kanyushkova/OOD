@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 public class Editor {
     private final List<IShape> shapes = new ArrayList<>();
 
-    public Editor() {
-        // TODO: remove it later - need for testing
-        createShape(new EllipseStrategy());
+    public Editor() {}
+
+    public void createRectangle() {
         createShape(new RectangleStrategy());
+    }
+
+    public void createTriangle() {
         createShape(new TriangleStrategy());
     }
 
-    public void createShape(IDrawShapeStrategy strategy) {
-        var shape = new Shape(strategy);
-        shape.setPosition(new Point(100, 100));
-        shape.setSize(new Size(100, 100));
-        shapes.add(shape);
+    public void createEllipse() {
+        createShape(new EllipseStrategy());
     }
 
     public void group() {
@@ -114,5 +114,12 @@ public class Editor {
         }
 
         shapes.forEach(shape -> shape.setSelected(selectedItems.contains(shape.getID())));
+    }
+
+    private void createShape(IDrawShapeStrategy strategy) {
+        var shape = new Shape(strategy);
+        shape.setPosition(new Point(100, 100));
+        shape.setSize(new Size(100, 100));
+        shapes.add(shape);
     }
 }
