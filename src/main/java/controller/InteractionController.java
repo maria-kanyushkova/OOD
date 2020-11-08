@@ -14,8 +14,8 @@ public class InteractionController {
     private Point initialMousePositionOnScreen = null;
     private IShape draggableShape = null;
 
-    public InteractionController(Editor editor, Component component) {
-        this.editor = editor;
+    public InteractionController(Component component) {
+        this.editor = Editor.getInstance();
         this.component = component;
 
         this.component.addKeyListener(new KeyAdapter() {

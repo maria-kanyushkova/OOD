@@ -6,13 +6,10 @@ import controller.InteractionController;
 import java.awt.*;
 
 public class EditorCanvas extends Canvas {
-    private final Editor editor;
-
-    public EditorCanvas(Editor editor) {
+    public EditorCanvas() {
         super();
 
-        this.editor = editor;
-        var controller = new InteractionController(editor, this);
+        var controller = new InteractionController(this);
 
         setBackground(Color.WHITE);
     }
@@ -23,7 +20,7 @@ public class EditorCanvas extends Canvas {
 
         Graphics2D graphics = (Graphics2D) g;
 
-        for (IDrawable item : editor.getDrawableItems()) {
+        for (IDrawable item : Editor.getInstance().getDrawableItems()) {
             item.draw(graphics);
         }
     }

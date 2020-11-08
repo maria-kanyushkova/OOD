@@ -1,22 +1,14 @@
 package shape.strategies;
 
-import shape.IShape;
 import math.Point;
 
-import java.awt.*;
 import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.List;
 
-public class TriangleStrategy implements IDrawShapeStrategy {
-    private IShape shape;
-
+public class TriangleStrategy extends AbstractDrawShapeStrategy {
     @Override
-    public void draw(Graphics2D graphics) {
-        if (shape == null) {
-            return;
-        }
-
+    protected java.awt.Shape createComponent() {
         var points = getVertices();
 
         Path2D path = new Path2D.Double();
@@ -24,13 +16,7 @@ public class TriangleStrategy implements IDrawShapeStrategy {
         points.stream().skip(1).forEach(point -> path.lineTo(point.getX(), point.getY()));
         path.closePath();
 
-        graphics.setColor(Color.BLACK);
-        graphics.draw(path);
-    }
-
-    @Override
-    public void setShapeData(IShape shape) {
-        this.shape = shape;
+        return path;
     }
 
     @Override

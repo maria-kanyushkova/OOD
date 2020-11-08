@@ -18,6 +18,7 @@ public class SelectionFrame extends JComponent {
         Graphics2D graphics = (Graphics2D) g;
 
         graphics.setColor(Color.ORANGE);
+        graphics.setStroke(new BasicStroke(1.f));
         graphics.drawRect(getX(), getY(), getWidth(), getHeight());
 
         for (int location : locations) {

@@ -1,35 +1,36 @@
 package application;
 
 import shape.ShapeGroup;
-import shape.strategies.EllipseStrategy;
-import shape.strategies.IDrawShapeStrategy;
-import math.Point;
-import math.Size;
 import shape.IShape;
-import shape.Shape;
-import shape.strategies.RectangleStrategy;
-import shape.strategies.TriangleStrategy;
+import math.Point;
 import ui.IDrawable;
 
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Editor {
+public final class Editor {
+    private static volatile Editor instance;
+
     private final List<IShape> shapes = new ArrayList<>();
 
-    public Editor() {}
+    private Editor() {}
 
-    public void createRectangle() {
-        createShape(new RectangleStrategy());
+    public static Editor getInstance() {
+        if (instance == null) {
+            synchronized (Editor.class) {
+                if (instance == null) {
+                    instance = new Editor();
+                }
+            }
+        }
+        return instance;
     }
 
-    public void createTriangle() {
-        createShape(new TriangleStrategy());
-    }
+    public void appendShape(IShape shape) {
+        shapes.add(shape);
 
-    public void createEllipse() {
-        createShape(new EllipseStrategy());
+        selectImpl(new ArrayList<>(Arrays.asList(shape.getID())), false);
     }
 
     public void group() {
@@ -42,9 +43,7 @@ public class Editor {
 
         var group = new ShapeGroup(selectedShapes);
 
-        shapes.add(group);
-
-        selectImpl(new ArrayList<>(Arrays.asList(group.getID())), false);
+        appendShape(group);
 
         // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
         shapes.removeIf(shape -> selectedShapes.contains(shape));
@@ -116,10 +115,4 @@ public class Editor {
         shapes.forEach(shape -> shape.setSelected(selectedItems.contains(shape.getID())));
     }
 
-    private void createShape(IDrawShapeStrategy strategy) {
-        var shape = new Shape(strategy);
-        shape.setPosition(new Point(100, 100));
-        shape.setSize(new Size(100, 100));
-        shapes.add(shape);
-    }
 }
