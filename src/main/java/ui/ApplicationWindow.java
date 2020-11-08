@@ -86,15 +86,18 @@ public class ApplicationWindow extends JFrame {
 
         // edit
         var colors = new JMenu("Colors");
-        createMenuItem(colors, new JMenuItem("White"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.WHITE))), "Fill white");
-        createMenuItem(colors, new JMenuItem("Black"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.BLACK))), "Fill black");
-        createMenuItem(colors, new JMenuItem("Green"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.GREEN))), "Fill green");
-        createMenuItem(colors, new JMenuItem("Orange"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.ORANGE))), "Fill orange");
+        createMenuItem(colors, new JMenuItem("Black"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getFillContext(Color.BLACK))), "Fill black");
+        createMenuItem(colors, new JMenuItem("Orange"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getFillContext(Color.ORANGE))), "Fill orange");
+        createMenuItem(colors, new JMenuItem("Yellow"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getFillContext(Color.YELLOW))), "Fill yellow");
+        createMenuItem(colors, new JMenuItem("White"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getFillContext(Color.WHITE))), "Fill white");
 
         var strokes = new JMenu("Strokes");
-        createMenuItem(strokes, new JMenuItem("1 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(1.f))), "Change stroke on 1");
-        createMenuItem(strokes, new JMenuItem("2 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(2.f))), "Change stroke on 2");
-        createMenuItem(strokes, new JMenuItem("4 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(4.f))), "Change stroke on 4");
+        createMenuItem(strokes, new JMenuItem("1 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getStrokeContext(1.f))), "Change stroke on 1");
+        createMenuItem(strokes, new JMenuItem("3 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getStrokeContext(3.f))), "Change stroke on 3");
+        strokes.add(new JSeparator());
+        createMenuItem(strokes, new JMenuItem("Black"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getOutlineColorContext(Color.BLACK))), "Stroke is black");
+        createMenuItem(strokes, new JMenuItem("Gray"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getOutlineColorContext(Color.GRAY))), "Stroke is gray");
+        createMenuItem(strokes, new JMenuItem("White"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, Context.getOutlineColorContext(Color.WHITE))), "Stroke is white");
 
         var edit = new JMenu("Edit");
 

@@ -18,11 +18,11 @@ public abstract class AbstractDrawShapeStrategy implements IDrawShapeStrategy {
         var component = createComponent();
 
         // fill
-        graphics.setColor(context.getColor());
+        graphics.setColor(context.getFillColor());
         graphics.fill(component);
 
         // stroke
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(context.getOutlineColor());
         graphics.setStroke(new BasicStroke(context.getStroke()));
         graphics.draw(component);
     }
