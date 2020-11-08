@@ -20,16 +20,10 @@ public class Editor {
 
     public Editor() {}
 
-    public void createRectangle() {
-        createShape(new RectangleStrategy());
-    }
+    public void appendShape(IShape shape) {
+        shapes.add(shape);
 
-    public void createTriangle() {
-        createShape(new TriangleStrategy());
-    }
-
-    public void createEllipse() {
-        createShape(new EllipseStrategy());
+        selectImpl(new ArrayList<>(Arrays.asList(shape.getID())), false);
     }
 
     public void group() {
@@ -42,9 +36,7 @@ public class Editor {
 
         var group = new ShapeGroup(selectedShapes);
 
-        shapes.add(group);
-
-        selectImpl(new ArrayList<>(Arrays.asList(group.getID())), false);
+        appendShape(group);
 
         // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
         shapes.removeIf(shape -> selectedShapes.contains(shape));
@@ -116,10 +108,4 @@ public class Editor {
         shapes.forEach(shape -> shape.setSelected(selectedItems.contains(shape.getID())));
     }
 
-    private void createShape(IDrawShapeStrategy strategy) {
-        var shape = new Shape(strategy);
-        shape.setPosition(new Point(100, 100));
-        shape.setSize(new Size(100, 100));
-        shapes.add(shape);
-    }
 }

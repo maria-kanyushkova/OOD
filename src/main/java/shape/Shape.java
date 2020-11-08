@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Shape extends AbstractShape {
     private final IDrawShapeStrategy strategy;
-    private final Context context = new Context();
+    private final Context context = new Context(Color.WHITE, 1.f);
 
     public Shape(IDrawShapeStrategy strategy) {
         this.strategy = strategy;
@@ -27,5 +27,9 @@ public class Shape extends AbstractShape {
 
     public Context getContext() {
         return this.context;
+    }
+
+    public void updateContext(Context context) {
+        this.context.update(context);
     }
 }

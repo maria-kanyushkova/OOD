@@ -1,6 +1,11 @@
 package ui;
 
 import application.Editor;
+import application.command.AddShapeCommand;
+import application.command.ChangeShapeContextCommand;
+import common.history.History;
+import common.history.ICommand;
+import shape.Context;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +17,7 @@ public class ApplicationWindow extends JFrame {
     private static final int FRAME_HEIGHT = 720;
 
     private final EditorCanvas canvas;
+    private final History history = new History();
 
     public ApplicationWindow() {
         setTitle("Shapes");
@@ -74,21 +80,21 @@ public class ApplicationWindow extends JFrame {
         // tools
         var tools = new JMenu("Tools");
 
-        createMenuItem(tools, new JMenuItem("Rectangle"), (event) -> editor.createRectangle(), "Create rectangle");
-        createMenuItem(tools, new JMenuItem("Triangle"), (event) -> editor.createTriangle(), "Create triangle");
-        createMenuItem(tools, new JMenuItem("Ellipse"), (event) -> editor.createEllipse(), "Create ellipse");
+        createMenuItem(tools, new JMenuItem("Rectangle"), (event) -> executeCommand(new AddShapeCommand(editor, shape.Type.RECTANGLE)), "Create rectangle");
+        createMenuItem(tools, new JMenuItem("Triangle"), (event) -> executeCommand(new AddShapeCommand(editor, shape.Type.TRIANGLE)), "Create triangle");
+        createMenuItem(tools, new JMenuItem("Ellipse"), (event) -> executeCommand(new AddShapeCommand(editor, shape.Type.ELLIPSE)), "Create ellipse");
 
         // edit
         var colors = new JMenu("Colors");
-        createMenuItem(colors, new JMenuItem("White"), (event) -> {}, "Fill white");
-        createMenuItem(colors, new JMenuItem("Black"), (event) -> {}, "Fill black");
-        createMenuItem(colors, new JMenuItem("Green"), (event) -> {}, "Fill green");
-        createMenuItem(colors, new JMenuItem("Orange"), (event) -> {}, "Fill orange");
+        createMenuItem(colors, new JMenuItem("White"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.WHITE))), "Fill white");
+        createMenuItem(colors, new JMenuItem("Black"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.BLACK))), "Fill black");
+        createMenuItem(colors, new JMenuItem("Green"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.GREEN))), "Fill green");
+        createMenuItem(colors, new JMenuItem("Orange"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(Color.ORANGE))), "Fill orange");
 
         var strokes = new JMenu("Strokes");
-        createMenuItem(strokes, new JMenuItem("1 depth"), (event) -> {}, "Change stroke on 1");
-        createMenuItem(strokes, new JMenuItem("2 depth"), (event) -> {}, "Change stroke on 21");
-        createMenuItem(strokes, new JMenuItem("4 depth"), (event) -> {}, "Change stroke on 5");
+        createMenuItem(strokes, new JMenuItem("1 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(1.f))), "Change stroke on 1");
+        createMenuItem(strokes, new JMenuItem("2 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(2.f))), "Change stroke on 2");
+        createMenuItem(strokes, new JMenuItem("4 depth"), (event) -> executeCommand(new ChangeShapeContextCommand(editor, new Context(4.f))), "Change stroke on 4");
 
         var edit = new JMenu("Edit");
 
@@ -108,5 +114,9 @@ public class ApplicationWindow extends JFrame {
         item.addActionListener(listener);
         item.setToolTipText(tooltip);
         group.add(item);
+    }
+
+    private void executeCommand(ICommand command) {
+        history.push(command, true);
     }
 }
