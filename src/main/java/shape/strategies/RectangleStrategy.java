@@ -1,30 +1,16 @@
 package shape.strategies;
 
-import shape.IShape;
 import math.Point;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class RectangleStrategy implements IDrawShapeStrategy {
-    private IShape shape;
-
+public class RectangleStrategy extends AbstractDrawShapeStrategy {
     @Override
-    public void draw(Graphics2D graphics) {
-        if (shape == null) {
-            return;
-        }
-
+    protected java.awt.Shape createComponent() {
         var position = shape.getPosition();
         var size = shape.getSize();
 
-        graphics.setColor(Color.BLACK);
-        graphics.draw(new Rectangle2D.Double(position.getX(), position.getY(), size.getWidth(), size.getHeight()));
-    }
-
-    @Override
-    public void setShapeData(IShape shape) {
-        this.shape = shape;
+        return new Rectangle2D.Double(position.getX(), position.getY(), size.getWidth(), size.getHeight());
     }
 
     @Override
