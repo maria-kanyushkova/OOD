@@ -7,17 +7,15 @@ import shape.Type;
 
 public class AddShapeCommand implements ICommand {
     private final Type shapeType;
-    private final Editor editor;
 
-    public AddShapeCommand(Editor editor, Type shapeType) {
-        this.editor = editor;
+    public AddShapeCommand(Type shapeType) {
         this.shapeType = shapeType;
     }
 
     @Override
     public void execute() {
         try {
-            editor.appendShape(ShapeFactory.createShape(shapeType));
+            Editor.getInstance().appendShape(ShapeFactory.createShape(shapeType));
         } catch (UnknownError error) {
             System.out.println(error.getMessage());
         }

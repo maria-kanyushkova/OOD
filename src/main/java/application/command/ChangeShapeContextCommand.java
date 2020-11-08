@@ -10,17 +10,15 @@ import shape.ShapeGroup;
 import java.util.List;
 
 public class ChangeShapeContextCommand implements ICommand {
-    private final Editor editor;
     private final Context context;
 
-    public ChangeShapeContextCommand(Editor editor, Context context) {
-        this.editor = editor;
+    public ChangeShapeContextCommand(Context context) {
         this.context = context;
     }
 
     @Override
     public void execute() {
-        var shapes = editor.getSelectedShapes();
+        var shapes = Editor.getInstance().getSelectedShapes();
         updateContext(shapes);
     }
 

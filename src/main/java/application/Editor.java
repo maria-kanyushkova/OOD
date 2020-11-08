@@ -1,24 +1,31 @@
 package application;
 
 import shape.ShapeGroup;
-import shape.strategies.EllipseStrategy;
-import shape.strategies.IDrawShapeStrategy;
-import math.Point;
-import math.Size;
 import shape.IShape;
-import shape.Shape;
-import shape.strategies.RectangleStrategy;
-import shape.strategies.TriangleStrategy;
+import math.Point;
 import ui.IDrawable;
 
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Editor {
+public final class Editor {
+    private static volatile Editor instance;
+
     private final List<IShape> shapes = new ArrayList<>();
 
-    public Editor() {}
+    private Editor() {}
+
+    public static Editor getInstance() {
+        if (instance == null) {
+            synchronized (Editor.class) {
+                if (instance == null) {
+                    instance = new Editor();
+                }
+            }
+        }
+        return instance;
+    }
 
     public void appendShape(IShape shape) {
         shapes.add(shape);
