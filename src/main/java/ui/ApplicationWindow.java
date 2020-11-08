@@ -4,6 +4,7 @@ import application.Editor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 
 public class ApplicationWindow extends JFrame {
@@ -70,27 +71,42 @@ public class ApplicationWindow extends JFrame {
     }
 
     private void createMenuBar(Editor editor) {
-        var menuBar = new JMenuBar();
+        // tools
         var tools = new JMenu("Tools");
 
-        var createRectangleItem = new JMenuItem("Rectangle");
-        createRectangleItem.setToolTipText("Create rectangle");
-        createRectangleItem.addActionListener((event) -> editor.createRectangle());
+        createMenuItem(tools, new JMenuItem("Rectangle"), (event) -> editor.createRectangle(), "Create rectangle");
+        createMenuItem(tools, new JMenuItem("Triangle"), (event) -> editor.createTriangle(), "Create triangle");
+        createMenuItem(tools, new JMenuItem("Ellipse"), (event) -> editor.createEllipse(), "Create ellipse");
 
-        var createTriangleItem = new JMenuItem("Triangle");
-        createTriangleItem.setToolTipText("Create triangle");
-        createTriangleItem.addActionListener((event) -> editor.createTriangle());
+        // edit
+        var colors = new JMenu("Colors");
+        createMenuItem(colors, new JMenuItem("White"), (event) -> {}, "Fill white");
+        createMenuItem(colors, new JMenuItem("Black"), (event) -> {}, "Fill black");
+        createMenuItem(colors, new JMenuItem("Green"), (event) -> {}, "Fill green");
+        createMenuItem(colors, new JMenuItem("Orange"), (event) -> {}, "Fill orange");
 
-        var createEllipseItem = new JMenuItem("Ellipse");
-        createEllipseItem.setToolTipText("Create ellipse");
-        createEllipseItem.addActionListener((event) -> editor.createEllipse());
+        var strokes = new JMenu("Strokes");
+        createMenuItem(strokes, new JMenuItem("1 depth"), (event) -> {}, "Change stroke on 1");
+        createMenuItem(strokes, new JMenuItem("2 depth"), (event) -> {}, "Change stroke on 21");
+        createMenuItem(strokes, new JMenuItem("4 depth"), (event) -> {}, "Change stroke on 5");
 
-        tools.add(createRectangleItem);
-        tools.add(createTriangleItem);
-        tools.add(createEllipseItem);
+        var edit = new JMenu("Edit");
+
+        edit.add(colors);
+        edit.add(strokes);
+
+        // menu bar
+        var menuBar = new JMenuBar();
 
         menuBar.add(tools);
+        menuBar.add(edit);
 
         setJMenuBar(menuBar);
+    }
+
+    private void createMenuItem(JMenu group, JMenuItem item, ActionListener listener, String tooltip) {
+        item.addActionListener(listener);
+        item.setToolTipText(tooltip);
+        group.add(item);
     }
 }
