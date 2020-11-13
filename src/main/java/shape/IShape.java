@@ -1,8 +1,8 @@
 package shape;
 
-import math.Point;
 import math.Size;
 
+import java.awt.*;
 import java.util.UUID;
 
 public interface IShape {

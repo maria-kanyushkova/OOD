@@ -1,9 +1,8 @@
 package shape.strategies;
 
 import shape.IShape;
-import math.Point;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public interface IDrawShapeStrategy {
     void draw(Graphics2D graphics);

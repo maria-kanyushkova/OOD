@@ -1,28 +1,39 @@
 package common.history;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
-public class History {
-    // TODO: стек на redo не будет возвращать на последуюзие команды послу undo - надо заменить на Array
-    private final Stack<ICommand> history = new Stack<>();
-
-    public void push(ICommand command, boolean execute) {
-        if (execute) {
-            command.execute();
-        }
-
-        push(command);
-    }
+public class History implements IHistory {
+    private final List<ICommand> commands = new ArrayList<>();
+    private int currentCommandIndex = 0;
 
     public void push(ICommand command) {
-        history.push(command);
-    }
-
-    public void pop(ICommand command) {
-        history.push(command);
+        command.execute();
+        commands.add(command);
+        ++currentCommandIndex;
     }
 
     public boolean isEmpty() {
-        return history.isEmpty();
+        return commands.isEmpty();
+    }
+
+    public void undo() {
+        if (isEmpty()) {
+            return;
+        }
+        if (currentCommandIndex > 0) {
+            var command = commands.get(--currentCommandIndex);
+            command.reset();
+        }
+    }
+
+    public void redo() {
+        if (isEmpty()) {
+            return;
+        }
+        if (currentCommandIndex < commands.size()) {
+            var command = commands.get(currentCommandIndex++);
+            command.execute();
+        }
     }
 }

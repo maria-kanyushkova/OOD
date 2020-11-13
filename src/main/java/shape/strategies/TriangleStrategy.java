@@ -1,7 +1,6 @@
 package shape.strategies;
 
-import math.Point;
-
+import java.awt.*;
 import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.List;
@@ -26,9 +25,9 @@ public class TriangleStrategy extends AbstractDrawShapeStrategy {
         var vertex2 = points.get(1);
         var vertex3 = points.get(2);
 
-        int cond1 = (vertex1.getX() - point.getX()) * (vertex2.getY() - vertex1.getY()) - (vertex2.getX() - vertex1.getX()) * (vertex1.getY() - point.getY());
-        int cond2 = (vertex2.getX() - point.getX()) * (vertex3.getY() - vertex2.getY()) - (vertex3.getX() - vertex2.getX()) * (vertex2.getY() - point.getY());
-        int cond3 = (vertex3.getX() - point.getX()) * (vertex1.getY() - vertex3.getY()) - (vertex1.getX() - vertex3.getX()) * (vertex3.getY() - point.getY());
+        var cond1 = (vertex1.getX() - point.getX()) * (vertex2.getY() - vertex1.getY()) - (vertex2.getX() - vertex1.getX()) * (vertex1.getY() - point.getY());
+        var cond2 = (vertex2.getX() - point.getX()) * (vertex3.getY() - vertex2.getY()) - (vertex3.getX() - vertex2.getX()) * (vertex2.getY() - point.getY());
+        var cond3 = (vertex3.getX() - point.getX()) * (vertex1.getY() - vertex3.getY()) - (vertex1.getX() - vertex3.getX()) * (vertex3.getY() - point.getY());
 
         return (cond1 >= 0 && cond2 >= 0 && cond3 >= 0) || (cond1 <= 0 && cond2 <= 0 && cond3 <= 0);
     }
@@ -37,9 +36,9 @@ public class TriangleStrategy extends AbstractDrawShapeStrategy {
         var position = shape.getPosition();
         var size = shape.getSize();
 
-        var vertex1 = new Point(position.getX() + size.getWidth() / 2, position.getY());
-        var vertex2 = new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight());
-        var vertex3 = new Point(position.getX(), position.getY() + size.getHeight());
+        var vertex1 = new Point(position.x + size.getWidth() / 2, position.y);
+        var vertex2 = new Point(position.x + size.getWidth(), position.y + size.getHeight());
+        var vertex3 = new Point(position.x, position.y + size.getHeight());
 
         return Arrays.asList(vertex1, vertex2, vertex3);
     }

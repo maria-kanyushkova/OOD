@@ -1,6 +1,5 @@
 package shape;
 
-import math.Point;
 import math.Size;
 import ui.IDrawable;
 
@@ -18,12 +17,12 @@ public class ShapeGroup extends AbstractShape {
 
     @Override
     public void setPosition(Point position) {
-        var deltaX = position.getX() - this.position.getX();
-        var deltaY = position.getY() - this.position.getY();
+        var deltaX = position.x - this.position.x;
+        var deltaY = position.y - this.position.y;
 
         shapes.forEach(shape -> {
             var oldPosition = shape.getPosition();
-            shape.setPosition(new Point(oldPosition.getX() + deltaX, oldPosition.getY() + deltaY));
+            shape.setPosition(new Point(oldPosition.x + deltaX, oldPosition.y + deltaY));
         });
 
         super.setPosition(position);
@@ -75,10 +74,10 @@ public class ShapeGroup extends AbstractShape {
         shapes.forEach(shape -> {
             var position = shape.getPosition();
             var size = shape.getSize();
-            left.set(Math.min(position.getX(), left.get()));
-            top.set(Math.min(position.getY(), top.get()));
-            right.set(Math.max(position.getX() + size.getWidth(), right.get()));
-            bottom.set(Math.max(position.getY() + size.getHeight(), bottom.get()));
+            left.set(Math.min(position.x, left.get()));
+            top.set(Math.min(position.y, top.get()));
+            right.set(Math.max(position.x + size.getWidth(), right.get()));
+            bottom.set(Math.max(position.y + size.getHeight(), bottom.get()));
         });
 
         super.setPosition(new Point(left.get(), top.get()));

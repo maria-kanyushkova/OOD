@@ -1,6 +1,5 @@
 package shape;
 
-import math.Point;
 import shape.strategies.IDrawShapeStrategy;
 
 import java.awt.*;
