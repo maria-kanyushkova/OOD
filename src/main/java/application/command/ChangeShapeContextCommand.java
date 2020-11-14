@@ -7,32 +7,57 @@ import shape.IShape;
 import shape.Shape;
 import shape.ShapeGroup;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeShapeContextCommand implements ICommand {
     private final Context context;
+    private Map<IShape, ContextStructure> contextStructureMap = new HashMap<>();
+
+    private class ContextStructure {
+        private Context newContext;
+        private Context oldContext;
+
+        public ContextStructure(Context newContext, Context oldContext) {
+            this.newContext = newContext;
+            this.oldContext = oldContext;
+        }
+
+        public Context getNewContext() {
+            return newContext;
+        }
+
+        public Context getOldContext() {
+            return oldContext;
+        }
+    }
 
     public ChangeShapeContextCommand(Context context) {
         this.context = context;
+        setContextMap(Editor.getInstance().getSelectedShapes());
     }
 
     @Override
     public void execute() {
-        var shapes = Editor.getInstance().getSelectedShapes();
-        updateContext(shapes);
+        contextStructureMap.forEach((shape, contexts) -> {
+            ((Shape) shape).setContext(contexts.getNewContext());
+        });
     }
 
     @Override
     public void reset() {
-        // will implement in lab 4
+        contextStructureMap.forEach((shape, contexts) -> {
+            ((Shape) shape).setContext(contexts.getOldContext());
+        });
     }
 
-    private void updateContext(List<IShape> shapes) {
+    private void setContextMap(List<IShape> shapes) {
         shapes.forEach(shape -> {
             if (shape instanceof Shape) {
-                ((Shape) shape).updateContext(context);
+                contextStructureMap.put(shape, new ContextStructure(context, ((Shape) shape).getContext()));
             } else if (shape instanceof ShapeGroup) {
-                updateContext(((ShapeGroup) shape).children());
+                setContextMap(((ShapeGroup) shape).children());
             }
         });
     }

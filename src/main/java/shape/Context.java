@@ -15,6 +15,12 @@ public class Context {
         setStroke(stroke);
     }
 
+    public Context(Context context) {
+        setFillColor(context.fillColor);
+        setOutlineColor(context.outlineColor);
+        setStroke(context.stroke);
+    }
+
     public void setOutlineColor(Color outlineColor) {
         this.outlineColor = outlineColor;
     }
