@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class History implements IHistory {
-    private final List<ICommand> commands = new ArrayList<>();
+    private List<ICommand> commands = new ArrayList<>();
     private int currentCommandIndex = 0;
 
     public void push(ICommand command) {
         command.execute();
+        if (currentCommandIndex < commands.size()) {
+            commands = commands.subList(0, currentCommandIndex);
+        }
+
         commands.add(command);
         ++currentCommandIndex;
     }
