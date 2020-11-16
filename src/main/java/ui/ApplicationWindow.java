@@ -26,7 +26,7 @@ public class ApplicationWindow extends JFrame {
 
         createMenuBar();
 
-        canvas = new EditorCanvas();
+        canvas = new EditorCanvas(history);
         canvas.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
         add(canvas);
@@ -117,6 +117,6 @@ public class ApplicationWindow extends JFrame {
     }
 
     private void executeCommand(ICommand command) {
-        history.push(command, true);
+        history.push(command);
     }
 }

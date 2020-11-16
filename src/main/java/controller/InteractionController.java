@@ -1,6 +1,10 @@
 package controller;
 
 import application.Editor;
+import application.command.GroupShapeCommand;
+import application.command.MoveShapeCommand;
+import application.command.UngroupShapeCommand;
+import common.history.IHistory;
 import shape.IShape;
 
 import java.awt.*;
@@ -9,14 +13,16 @@ import java.awt.event.*;
 public class InteractionController {
     private final Component component;
     private final Editor editor;
+    private final IHistory history;
 
     private Point initialShapePosition = null;
     private Point initialMousePositionOnScreen = null;
     private IShape draggableShape = null;
 
-    public InteractionController(Component component) {
+    public InteractionController(Component component, IHistory history) {
         this.editor = Editor.getInstance();
         this.component = component;
+        this.history = history;
 
         this.component.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) { onKeyPressed(e); }
@@ -38,12 +44,26 @@ public class InteractionController {
     private void onKeyPressed(KeyEvent event) {
         int mods = event.getModifiersEx();
         var isControl = (mods & InputEvent.CTRL_DOWN_MASK) != 0;
+        var isShift = (mods & InputEvent.SHIFT_DOWN_MASK) != 0;
         var keyCode = event.getKeyCode();
 
         if (isControl && keyCode == KeyEvent.VK_G) {
-            editor.group();
+            var shapes = Editor.getInstance().getSelectedShapes();
+            if (!shapes.isEmpty()) {
+                history.push(new GroupShapeCommand(shapes));
+            }
         } else if (isControl && keyCode == KeyEvent.VK_U) {
-            editor.ungroup();
+            var shapes = Editor.getInstance().getSelectedShapes();
+            if (!shapes.isEmpty()) {
+                history.push(new UngroupShapeCommand(shapes));
+            }
+
+        } else if (isControl && keyCode == KeyEvent.VK_Z) {
+            if (isShift) {
+                history.redo();
+                return;
+            }
+            history.undo();
         }
     }
 
@@ -51,12 +71,12 @@ public class InteractionController {
         int mods = event.getModifiersEx();
         var isShift = (mods & InputEvent.SHIFT_DOWN_MASK) != 0;
         if (event.getButton() == MouseEvent.BUTTON1) {
-            var shape = editor.getInterceptingShape(new math.Point(event.getX(), event.getY()));
+            var shape = editor.getInterceptingShape(new Point(event.getX(), event.getY()));
             editor.select(shape, isShift);
 
             if (shape != null) {
                 draggableShape = shape;
-                initialShapePosition = new Point(shape.getPosition().getX(), shape.getPosition().getY());
+                initialShapePosition = shape.getPosition();
                 initialMousePositionOnScreen = event.getLocationOnScreen();
             }
         }
@@ -65,7 +85,12 @@ public class InteractionController {
     private void onMouseReleased(MouseEvent event) {
         if (event.getButton() == MouseEvent.BUTTON1) {
             component.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-            draggableShape = null;
+
+            if (draggableShape != null) {
+                history.push(new MoveShapeCommand(draggableShape, initialShapePosition, draggableShape.getPosition()));
+                draggableShape = null;
+            }
+
         }
     }
 
@@ -80,6 +105,9 @@ public class InteractionController {
         int deltaY = mouseLocation.y - initialMousePositionOnScreen.y;
 
         component.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-        draggableShape.setPosition(new math.Point(initialShapePosition.x + deltaX, initialShapePosition.y + deltaY));
+
+        var newPosition = new Point(initialShapePosition);
+        newPosition.translate(deltaX, deltaY);
+        draggableShape.setPosition(newPosition);
     }
 }

@@ -2,9 +2,9 @@ package application;
 
 import shape.ShapeGroup;
 import shape.IShape;
-import math.Point;
 import ui.IDrawable;
 
+import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,45 +33,28 @@ public final class Editor {
         selectImpl(new ArrayList<>(Arrays.asList(shape.getID())), false);
     }
 
-    public void group() {
-        var selectedShapes = getSelectedShapes();
-        if (selectedShapes.size() <= 1) {
-            // need throw exception
-            System.out.println("Can't group a one shape");
-            return;
-        }
-
-        var group = new ShapeGroup(selectedShapes);
-
-        appendShape(group);
-
-        // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
-        shapes.removeIf(shape -> selectedShapes.contains(shape));
+    public void removeShape(UUID uuid) {
+        shapes.removeIf(shape -> shape.getID().equals(uuid));
     }
 
-    public void ungroup() {
-        var selectedShapes = getSelectedShapes();
+    public void group(IShape group) {
+        appendShape(group);
 
-        var groups =  selectedShapes.stream()
-                .filter(shape -> shape instanceof ShapeGroup)
-                .collect(Collectors.toList());
-        if (groups.size() == 0) {
-            // need throw exception
-            System.out.println("No has groups");
-            return;
+        if (group instanceof ShapeGroup) {
+            var children = ((ShapeGroup) group).children();
+            // удаляем исходные фигуры, чтобы фигуры не дублировались при отрисовке
+            shapes.removeIf(shape -> children.contains(shape));
         }
+    }
 
-        var children = new ArrayList<IShape>();
+    public void ungroup(IShape group) {
+        if (group instanceof ShapeGroup) {
+            var children = ((ShapeGroup) group).children();
 
-        groups.forEach( shape -> {
-            var group = (ShapeGroup) shape;
             shapes.remove(group);
-            children.addAll(group.children());
-        });
-
-        shapes.addAll(children);
-
-        selectImpl(children.stream().map(shape -> shape.getID()).collect(Collectors.toList()), false);
+            shapes.addAll(children);
+            selectImpl(children.stream().map(shape -> shape.getID()).collect(Collectors.toList()), false);
+        }
     }
 
     public void select(IShape shape, boolean isMulti) {

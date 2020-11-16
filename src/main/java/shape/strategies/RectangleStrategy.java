@@ -1,7 +1,6 @@
 package shape.strategies;
 
-import math.Point;
-
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class RectangleStrategy extends AbstractDrawShapeStrategy {
@@ -17,8 +16,8 @@ public class RectangleStrategy extends AbstractDrawShapeStrategy {
     public boolean isContains(Point point) {
         var position = shape.getPosition();
         var size = shape.getSize();
-        var leftTopPoint = new Point(position.getX(), position.getY());
-        var rightBottomPoint = new Point(position.getX() + size.getWidth(), position.getY() + size.getHeight());
+        var leftTopPoint = new Point(position.x, position.y);
+        var rightBottomPoint = new Point(position.x + size.getWidth(), position.y + size.getHeight());
 
         return point.getX() >= leftTopPoint.getX() && point.getX() <= rightBottomPoint.getX() && point.getY() >= leftTopPoint.getY() && point.getY() <= rightBottomPoint.getY();
     }

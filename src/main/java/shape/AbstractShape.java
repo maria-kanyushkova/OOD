@@ -1,6 +1,5 @@
 package shape;
 
-import math.Point;
 import math.Size;
 import ui.IDrawable;
 import ui.SelectionFrame;
@@ -23,7 +22,7 @@ public abstract class AbstractShape implements IShape, IDrawable {
     @Override
     public void setPosition(Point position) {
         this.position = position;
-        frame.setLocation(position.getX(), position.getY());
+        frame.setLocation(position.x, position.y);
     }
 
     @Override

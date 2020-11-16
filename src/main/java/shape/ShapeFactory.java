@@ -1,11 +1,14 @@
 package shape;
 
-import math.Point;
 import math.Size;
 import shape.strategies.EllipseStrategy;
 import shape.strategies.IDrawShapeStrategy;
 import shape.strategies.RectangleStrategy;
 import shape.strategies.TriangleStrategy;
+
+import java.awt.Point;
+import java.util.List;
+
 
 public class ShapeFactory {
     static public IShape createShape(Type type) {
@@ -23,6 +26,14 @@ public class ShapeFactory {
                 throw new UnknownError("Unknown a shape type");
             }
         }
+    }
+
+    static public IShape createGroup(List<IShape> shapes) throws IllegalArgumentException {
+        if (shapes.size() <= 1) {
+            throw new IllegalArgumentException("Can't group a one shape or less");
+        }
+
+        return new ShapeGroup(shapes);
     }
 
     static private IShape createShapeImpl(IDrawShapeStrategy strategy) {
