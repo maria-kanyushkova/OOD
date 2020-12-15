@@ -3,13 +3,16 @@ package shape;
 import shape.strategies.IDrawShapeStrategy;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class Shape extends AbstractShape {
-    private final IDrawShapeStrategy strategy;
+    private IDrawShapeStrategy strategy;
+    private Type type = null;
     private Context context = new Context(Color.WHITE, 1.f);
 
-    public Shape(IDrawShapeStrategy strategy) {
-        this.strategy = strategy;
+    public Shape(UUID id, Type type) {
+        super(id);
+        this.type = type;
         this.strategy.setShapeData(this);
     }
 
@@ -33,5 +36,13 @@ public class Shape extends AbstractShape {
         newContext.update(context);
 
         this.context = newContext;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setStrategy(IDrawShapeStrategy strategy) {
+        this.strategy = strategy;
     }
 }

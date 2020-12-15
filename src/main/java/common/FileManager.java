@@ -41,7 +41,7 @@ public class FileManager {
 
     public static void write(File file, String content) throws IOException {
         try (
-                FileWriter writer = new FileWriter(file);
+                FileWriter writer = new FileWriter(file, true);
         ) {
             writer.write(content);
         }

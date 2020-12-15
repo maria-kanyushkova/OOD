@@ -10,9 +10,13 @@ import java.util.UUID;
 public abstract class AbstractShape implements IShape, IDrawable {
     protected Size size = new Size(0, 0);
     protected Point position = new Point(0, 0);
-    private final UUID id = UUID.randomUUID();
+    private final UUID id;
     private boolean selected = false;
     protected final SelectionFrame frame = new SelectionFrame();
+
+    public AbstractShape(UUID id) {
+        this.id = id;
+    }
 
     @Override
     public final UUID getID() {
