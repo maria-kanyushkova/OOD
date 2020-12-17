@@ -16,28 +16,34 @@ public class ShapeBuilder {
     private Type type;
     private Context context;
 
-    public void setSize(int width, int height) {
+    public ShapeBuilder setSize(int width, int height) {
         size = new Size(width, height);
+        return this;
     }
 
-    public void setPosition(int x, int y) {
+    public ShapeBuilder setPosition(int x, int y) {
         position = new Point(x, y);
+        return this;
     }
 
-    public void setId(String id) {
+    public ShapeBuilder setId(String id) {
         this.id = UUID.fromString(id);
+        return this;
     }
 
-    public void setSelected(boolean selected) {
+    public ShapeBuilder setSelected(boolean selected) {
         this.selected = selected;
+        return this;
     }
 
-    public void setType(Type type) {
+    public ShapeBuilder setType(Type type) {
         this.type = type;
+        return this;
     }
 
-    public void setContext(Context context) {
+    public ShapeBuilder setContext(Context context) {
         this.context = context;
+        return this;
     }
 
     public IShape build() {

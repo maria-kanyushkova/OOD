@@ -96,11 +96,13 @@ public class ApplicationWindow extends JFrame {
         createMenuItem(load, new JMenuItem("Text"), (event) -> {
             serializer.setStrategy(new TextSerializeStrategy());
             serializer.load();
+            history.clear();
         }, "Load from text file");
         createMenuItem(load, new JMenuItem("Binary"), (event) -> {
             serializer.setStrategy(new BinarySerializeStrategy());
             serializer.load();
-        }, "Load fron binary file");
+            history.clear();
+        }, "Load from binary file");
 
         file.add(save);
         file.add(load);

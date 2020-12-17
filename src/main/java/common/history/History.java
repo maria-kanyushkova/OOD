@@ -40,4 +40,9 @@ public class History implements IHistory {
             command.execute();
         }
     }
+
+    public void clear() {
+        commands = new ArrayList<>();
+        currentCommandIndex = 0;
+    }
 }
