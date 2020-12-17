@@ -13,7 +13,6 @@ public class Shape extends AbstractShape {
     public Shape(UUID id, Type type) {
         super(id);
         this.type = type;
-        this.strategy.setShapeData(this);
     }
 
     @Override
@@ -44,5 +43,6 @@ public class Shape extends AbstractShape {
 
     public void setStrategy(IDrawShapeStrategy strategy) {
         this.strategy = strategy;
+        this.strategy.setShapeData(this);
     }
 }

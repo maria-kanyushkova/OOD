@@ -14,7 +14,7 @@ import java.util.UUID;
  * File format `type,id,x,y,width,height,selected,fillColor,outlineColor,stroke,group_id`
  */
 public class TextSerializeStrategy implements ISerializeStrategy {
-    private final String fileName = "shapes.txt";
+    private final String fileName = "src/main/resources/shapes.txt";
 
     @Override
     public void serialize(List<IShape> shapes) {
