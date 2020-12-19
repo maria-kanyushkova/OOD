@@ -18,4 +18,6 @@ public interface IShape {
 
     void setSelected(boolean selected);
     boolean isSelected();
+
+    Type getType();
 }

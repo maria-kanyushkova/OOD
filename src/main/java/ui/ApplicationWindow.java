@@ -2,6 +2,9 @@ package ui;
 
 import application.command.AddShapeCommand;
 import application.command.ChangeShapeContextCommand;
+import application.serialize.BinarySerializeStrategy;
+import application.serialize.Serializer;
+import application.serialize.TextSerializeStrategy;
 import common.history.History;
 import common.history.ICommand;
 import shape.Context;
@@ -17,6 +20,7 @@ public class ApplicationWindow extends JFrame {
 
     private final EditorCanvas canvas;
     private final History history = new History();
+    private final Serializer serializer = new Serializer();
 
     public ApplicationWindow() {
         setTitle("Shapes");
@@ -28,6 +32,7 @@ public class ApplicationWindow extends JFrame {
 
         canvas = new EditorCanvas(history);
         canvas.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+
 
         add(canvas);
         pack();
@@ -74,6 +79,34 @@ public class ApplicationWindow extends JFrame {
     }
 
     private void createMenuBar() {
+        // file
+        var file = new JMenu("File");
+        var save = new JMenu("Save");
+
+        createMenuItem(save, new JMenuItem("Text"), (event) -> {
+            serializer.setStrategy(new TextSerializeStrategy());
+            serializer.save();
+        }, "Save to text file");
+        createMenuItem(save, new JMenuItem("Binary"), (event) -> {
+            serializer.setStrategy(new BinarySerializeStrategy());
+            serializer.save();
+        }, "Save to binary file");
+
+        var load = new JMenu("Load");
+        createMenuItem(load, new JMenuItem("Text"), (event) -> {
+            serializer.setStrategy(new TextSerializeStrategy());
+            serializer.load();
+            history.clear();
+        }, "Load from text file");
+        createMenuItem(load, new JMenuItem("Binary"), (event) -> {
+            serializer.setStrategy(new BinarySerializeStrategy());
+            serializer.load();
+            history.clear();
+        }, "Load from binary file");
+
+        file.add(save);
+        file.add(load);
+
         // tools
         var tools = new JMenu("Tools");
 
@@ -104,6 +137,7 @@ public class ApplicationWindow extends JFrame {
         // menu bar
         var menuBar = new JMenuBar();
 
+        menuBar.add(file);
         menuBar.add(tools);
         menuBar.add(edit);
 

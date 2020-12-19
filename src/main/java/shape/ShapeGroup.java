@@ -5,12 +5,14 @@ import ui.IDrawable;
 
 import java.awt.*;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ShapeGroup extends AbstractShape {
     private final List<IShape> shapes;
 
-    public ShapeGroup(List<IShape> shapes) {
+    public ShapeGroup(UUID id, List<IShape> shapes) {
+        super(id);
         this.shapes = shapes;
         updatePhysicAttributes();
     }
@@ -49,6 +51,11 @@ public class ShapeGroup extends AbstractShape {
             }
         }
         return false;
+    }
+
+    @Override
+    public Type getType() {
+        return null;
     }
 
     public List<IShape> children() {

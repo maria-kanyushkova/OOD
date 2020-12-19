@@ -1,6 +1,8 @@
 package common;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // get methods from
 // https://github.com/android10/Android-CleanArchitecture/blob/master/data/src/main/java/com/fernandocejas/android10/sample/data/cache/FileManager.java
@@ -25,23 +27,23 @@ public class FileManager {
         return file;
     }
 
-    public static String read(File file) throws IOException {
-        final StringBuilder fileContentBuilder = new StringBuilder();
+    public static List<String> read(File file) throws IOException {
+        var lines = new ArrayList<String>();
         try (
                 FileReader fileReader = new FileReader(file);
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             String stringLine;
             while ((stringLine = bufferedReader.readLine()) != null) {
-                fileContentBuilder.append(stringLine).append("\n");
+                lines.add(stringLine);
             }
         }
-        return fileContentBuilder.toString();
+        return lines;
     }
 
     public static void write(File file, String content) throws IOException {
         try (
-                FileWriter writer = new FileWriter(file);
+                FileWriter writer = new FileWriter(file, true);
         ) {
             writer.write(content);
         }

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public final class Editor {
     private static volatile Editor instance;
 
-    private final List<IShape> shapes = new ArrayList<>();
+    private List<IShape> shapes = new ArrayList<>();
 
     private Editor() {}
 
@@ -81,6 +81,14 @@ public final class Editor {
         return shapes.stream()
                 .map(shape -> (IDrawable) shape)
                 .collect(Collectors.toList());
+    }
+
+    public List<IShape> getShapes() {
+        return shapes;
+    }
+
+    public void setShapes(List<IShape> shapes) {
+        this.shapes = shapes;
     }
 
     private void selectImpl(List<UUID> selectedItems, boolean isMulti) {
